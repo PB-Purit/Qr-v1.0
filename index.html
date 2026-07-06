@@ -14,29 +14,24 @@
     --text:#F4F2ED;--text-dim:#9A9A9E;--text-faint:#6c6c70;--radius:14px;
   }
   *{box-sizing:border-box;}
-  body{margin:0;background:var(--bg);color:var(--text);font-family:'Inter','Noto Sans Thai',sans-serif;min-height:100vh;padding-top:72px;}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:'Inter','Noto Sans Thai',sans-serif;min-height:100vh;}
   .wrap{max-width:980px;margin:0 auto;padding:32px 20px 80px;}
 
-  /* PDA TOP BAR */
-  .pda-bar{
-    position:fixed;top:0;left:0;right:0;z-index:200;
-    background:rgba(22,22,22,.96);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
-    border-bottom:1px solid var(--border);
-    display:flex;align-items:center;justify-content:flex-end;
-    gap:2px;padding:10px 12px 8px;height:84px;
+  /* PDA MENU */
+  .pda-menu{
+    display:none;position:absolute;top:calc(100% + 10px);right:0;flex-direction:column;
+    gap:8px;min-width:210px;padding:10px;background:var(--panel);border:1px solid var(--border);
+    border-radius:var(--radius);box-shadow:0 10px 30px rgba(0,0,0,.35);z-index:250;
   }
-  .pda-bar-label{
-    font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;
-    color:var(--text-faint);text-transform:uppercase;margin-right:8px;flex-shrink:0;white-space:nowrap;
-  }
+  .pda-menu.show{display:flex;}
   .pda-item{
-    display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;
-    padding:5px 8px;border-radius:8px;border:1px solid transparent;
-    transition:border-color .15s,background .15s;flex-shrink:0;
+    display:flex;align-items:center;justify-content:flex-start;gap:8px;cursor:pointer;
+    padding:8px 10px;border-radius:10px;border:1px solid transparent;
+    transition:border-color .15s,background .15s;
   }
   .pda-item:hover{border-color:var(--amber);background:var(--panel-2);}
-  .pda-qr-mini{background:#fff;padding:3px;border-radius:4px;line-height:0;}
-  .pda-num{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;color:var(--amber);letter-spacing:.04em;}
+  .pda-qr-mini{background:#fff;padding:3px;border-radius:6px;line-height:0;flex-shrink:0;}
+  .pda-num{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--amber);letter-spacing:.04em;white-space:nowrap;}
 
   /* PDA MODAL */
   .pda-overlay{
@@ -64,10 +59,16 @@
   .pda-modal .btn{width:100%;}
 
   /* HEADER */
-  header{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;border-bottom:2px solid var(--border);padding-bottom:20px;margin-bottom:32px;flex-wrap:wrap;}
+  header{position:relative;display:flex;align-items:flex-end;justify-content:space-between;gap:16px;border-bottom:2px solid var(--border);padding-bottom:20px;margin-bottom:32px;flex-wrap:wrap;}
   .eyebrow{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.12em;color:var(--amber);text-transform:uppercase;margin:0 0 6px;}
   h1{font-family:'Oswald','Noto Sans Thai',sans-serif;font-weight:700;font-size:30px;letter-spacing:.01em;margin:0;text-transform:uppercase;}
-  .plate{width:54px;height:54px;border:2px solid var(--amber);border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:13px;color:var(--amber);transform:rotate(-3deg);flex-shrink:0;}
+  .header-actions{display:flex;align-items:center;position:relative;}
+  .menu-toggle{width:54px;height:54px;border:2px solid var(--amber);border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;background:transparent;cursor:pointer;padding:0;transition:background .15s ease;}
+  .menu-toggle:hover{background:rgba(255,176,0,.08);}
+  .menu-toggle span{display:block;width:22px;height:2px;border-radius:2px;background:var(--amber);transition:transform .2s ease,opacity .2s ease;}
+  .menu-toggle.active span:nth-child(1){transform:translateY(6px) rotate(45deg);}
+  .menu-toggle.active span:nth-child(2){opacity:0;}
+  .menu-toggle.active span:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
 
   /* SECTION LABEL */
   .section-label{display:flex;align-items:center;gap:10px;margin:0 0 16px;}
@@ -128,26 +129,36 @@
 </head>
 <body>
 
-<!-- PDA TOP BAR -->
-<div class="pda-bar">
-  <span class="pda-bar-label">PDA </span>
-  <div class="pda-item" onclick="openPdaModal(0)">
-    <div class="pda-qr-mini" id="pda-mini-0"></div>
-    <span class="pda-num">PDA Log</span>
-  </div>
-  <div class="pda-item" onclick="openPdaModal(1)">
-    <div class="pda-qr-mini" id="pda-mini-1"></div>
-    <span class="pda-num">PDA 1</span>
-  </div>
-  <div class="pda-item" onclick="openPdaModal(2)">
-    <div class="pda-qr-mini" id="pda-mini-2"></div>
-    <span class="pda-num">PDA 2</span>
-  </div>
-  <div class="pda-item" onclick="openPdaModal(3)">
-    <div class="pda-qr-mini" id="pda-mini-3"></div>
-    <span class="pda-num">C ice</span>
-  </div>
-</div>
+<div class="wrap">
+  <header>
+    <div>
+      <p class="eyebrow">QR · Generator &amp; ผังจุดบริการ</p>
+      <h1>QR Code Tool</h1>
+    </div>
+    <div class="header-actions">
+      <button class="menu-toggle" id="pdaMenuToggle" aria-expanded="false" aria-controls="pdaMenu" aria-label="เปิดเมนู PDA">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="pda-menu" id="pdaMenu">
+        <div class="pda-item" onclick="togglePdaMenu(false);openPdaModal(0)">
+          <div class="pda-qr-mini" id="pda-mini-0"></div>
+          <span class="pda-num">PDA Log</span>
+        </div>
+        <div class="pda-item" onclick="togglePdaMenu(false);openPdaModal(1)">
+          <div class="pda-qr-mini" id="pda-mini-1"></div>
+          <span class="pda-num">PDA 1</span>
+        </div>
+        <div class="pda-item" onclick="togglePdaMenu(false);openPdaModal(2)">
+          <div class="pda-qr-mini" id="pda-mini-2"></div>
+          <span class="pda-num">PDA 2</span>
+        </div>
+        <div class="pda-item" onclick="togglePdaMenu(false);openPdaModal(3)">
+          <div class="pda-qr-mini" id="pda-mini-3"></div>
+          <span class="pda-num">C ice</span>
+        </div>
+      </div>
+    </div>
+  </header>
 
 <!-- PDA MODAL -->
 <div class="pda-overlay" id="pdaOverlay">
@@ -159,15 +170,6 @@
     <button class="btn btn-ghost" style="font-size:13px;padding:10px;width:100%;" onclick="downloadPdaQr()">ดาวน์โหลด PNG</button>
   </div>
 </div>
-
-<div class="wrap">
-  <header>
-    <div>
-      <p class="eyebrow">QR · Generator &amp; ผังจุดบริการ</p>
-      <h1>QR Code Tool</h1>
-    </div>
-    <div class="plate">QR</div>
-  </header>
 
   <div class="section-label"><span class="num">1</span><h2>สร้าง QR Code เอง</h2></div>
   <div class="gen-card">
@@ -221,8 +223,24 @@ function renderQR(container, text, size){
   new QRCode(container,{text,width:size,height:size,colorDark:"#161616",colorLight:"#ffffff",correctLevel:QRCode.CorrectLevel.M});
 }
 
+const pdaMenu=document.getElementById("pdaMenu");
+const pdaMenuToggle=document.getElementById("pdaMenuToggle");
+
+function togglePdaMenu(force){
+  const open=typeof force==="boolean"?force:!pdaMenu.classList.contains("show");
+  pdaMenu.classList.toggle("show",open);
+  pdaMenuToggle.classList.toggle("active",open);
+  pdaMenuToggle.setAttribute("aria-expanded", String(open));
+}
+
+pdaMenuToggle.addEventListener("click",(e)=>{e.stopPropagation();togglePdaMenu();});
+document.addEventListener("click",(e)=>{
+  if(!pdaMenu.contains(e.target) && !pdaMenuToggle.contains(e.target)) togglePdaMenu(false);
+});
+document.addEventListener("keydown",(e)=>{ if(e.key==="Escape") togglePdaMenu(false); });
+
 window.addEventListener("DOMContentLoaded",()=>{
-  pdaItems.forEach((item,i)=>{ renderQR(document.getElementById("pda-mini-"+i), item.id, 48); });
+  pdaItems.forEach((item,i)=>{ renderQR(document.getElementById("pda-mini-"+i), item.id, 42); });
 });
 
 let activePdaIdx=null;
