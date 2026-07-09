@@ -108,8 +108,9 @@ h1{font-family:'Oswald','Noto Sans Thai',sans-serif;font-weight:700;font-size:30
 .modal-actions .btn{flex:1;}
 
 footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--border);font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-faint);letter-spacing:.04em;}
-.footer-content{display:flex;justify-content:center;align-items:center;gap:16px;flex-wrap:wrap;position:relative;}
-.visit-count{position:absolute;right:0;color:var(--amber);font-weight:700;}
+.footer-content{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;position:relative;}
+.footer-version{color:var(--amber);font-weight:700;margin-right:auto;}
+.visit-count{margin-left:auto;color:var(--amber);font-weight:700;}
 
 @media(max-width:480px){
   h1{font-size:22px;}
@@ -117,5 +118,6 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--border);font-
   .pda-bar-label{display:none;}
   .pda-item{padding:4px 5px;}
   .footer-content{justify-content:center;text-align:center;}
-  .visit-count{position:static;margin-left:0;}
+  .footer-version{margin-right:0;}
+  .visit-count{margin-left:0;}
 }
