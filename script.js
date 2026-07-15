@@ -75,19 +75,31 @@ function downloadPdaQr(){
 }
 
 /* ===== DIRECTORY ===== */
-const directory=[
-  {num:"01",  label:"อุปกรณ์ไฟฟ้า",          url:"https://surl.li/snjgbf"},
-  {num:"02",  label:"ห้องลองชุด",             url:"https://surl.li/taymce"},
-  {num:"03",  label:"ขนม",                    url:"https://surl.lt/ttrqnm"},
-  {num:"04",  label:"ร้านทอง",                url:"https://surl.li/lfkwln"},
-  {num:"05",  label:"ห้องน้ำ",                url:"https://surl.li/wrfvbk"},
-  {num:"06",  label:"พนง",                    url:"https://surl.li/xsrvdj"},
-  {num:"07",  label:"Stock",                  url:"https://surl.li/dnzrgz"},
-  {num:"08",  label:"FF",                     url:"https://surl.li/lrdbbw"},
-  {num:"09",  label:"Door Amazon",            url:"https://surl.li/awrvpv"},
-  {num:"10",  label:"Food court",             url:"https://surl.li/spwrzh"},
-  {num:"G.01",label:"ร้านทอง",               url:"https://surl.li/gviqqp"},
-  {num:"S.01",label:"Random Saving Petty cash",url:"https://surl.li/zhmlzq"},
+const directorySections=[
+  {
+    title:"Opening ST.",
+    items:[
+      {num:"G.01",label:"ร้านทองเยาวราช",               url:"https://surl.li/gviqqp"},
+      {num:"01",  label:"อุปกรณ์ไฟฟ้า",          url:"https://surl.li/snjgbf"},
+      {num:"02",  label:"ห้องลองชุด",             url:"https://surl.li/taymce"},
+      {num:"03",  label:"ขนม",                    url:"https://surl.lt/ttrqnm"},
+      {num:"04",  label:"ร้านทอง AURORA",                url:"https://surl.li/lfkwln"},
+      {num:"05",  label:"ห้องน้ำ",                url:"https://surl.li/wrfvbk"},
+      
+      {num:"S.01",label:"Random Saving Petty cash",url:"https://surl.li/zhmlzq"},
+    ]
+  },
+  {
+    title:"Night ST.",
+    items:[
+      {num:"06",  label:"พนง",                    url:"https://surl.li/xsrvdj"},
+      {num:"07",  label:"Stock",                  url:"https://surl.li/dnzrgz"},
+      {num:"08",  label:"FF",                     url:"https://surl.li/lrdbbw"},
+      {num:"09",  label:"Door Amazon",            url:"https://surl.li/awrvpv"},
+      {num:"10",  label:"Food court",             url:"https://surl.li/spwrzh"},
+      {num:"Log (Night)", label:"Log Status",           url:"https://surl.li/ifpvwh"},
+    ]
+  }
 ];
 
 function getCanvasDataUrl(container){
@@ -130,12 +142,27 @@ genDownload.addEventListener("click",()=>downloadFromBox(genQrBox,"qrcode-custom
 
 /* Directory grid */
 const grid=document.getElementById("directoryGrid");
-directory.forEach((item)=>{
-  const tile=document.createElement("button");
-  tile.className="tile";
-  tile.innerHTML=`<span class="tile-num">${item.num}</span><span class="tile-label">${item.label}</span>`;
-  tile.addEventListener("click",()=>openModal(item));
-  grid.appendChild(tile);
+directorySections.forEach((section)=>{
+  const sectionWrap=document.createElement("div");
+  sectionWrap.className="directory-section";
+
+  const sectionTitle=document.createElement("h3");
+  sectionTitle.className="directory-section-title";
+  sectionTitle.textContent=section.title;
+  sectionWrap.appendChild(sectionTitle);
+
+  const group=document.createElement("div");
+  group.className="directory-group";
+  section.items.forEach((item)=>{
+    const tile=document.createElement("button");
+    tile.className="tile";
+    tile.innerHTML=`<span class="tile-num">${item.num}</span><span class="tile-label">${item.label}</span>`;
+    tile.addEventListener("click",()=>openModal(item));
+    group.appendChild(tile);
+  });
+
+  sectionWrap.appendChild(group);
+  grid.appendChild(sectionWrap);
 });
 
 /* Directory modal */

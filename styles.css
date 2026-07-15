@@ -87,7 +87,10 @@ h1{font-family:'Oswald','Noto Sans Thai',sans-serif;font-weight:700;font-size:30
 .err.show{display:block;}
 
 /* GRID */
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;}
+.grid{display:flex;flex-direction:column;gap:18px;}
+.directory-section{display:flex;flex-direction:column;gap:12px;}
+.directory-section-title{margin:0;font-family:'Oswald','Noto Sans Thai',sans-serif;font-size:14px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--amber);}
+.directory-group{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;}
 .tile{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:16px 14px;cursor:pointer;transition:border-color .15s ease,transform .12s ease;display:flex;flex-direction:column;gap:14px;text-align:left;}
 .tile:hover{border-color:var(--amber);transform:translateY(-2px);}
 .tile:active{transform:translateY(0) scale(.98);}
