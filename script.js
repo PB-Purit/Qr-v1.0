@@ -99,6 +99,12 @@ const directorySections=[
       {num:"10",  label:"Food court",             url:"https://surl.li/spwrzh"},
       {num:"Log (Night)", label:"Log Status",           url:"https://surl.li/ifpvwh"},
     ]
+  },
+  {
+    title:"Smart Log Store ",
+    items:[
+      {num:"ST.11142", label:"Smart Log Store", url:"https://script.google.com/macros/s/AKfycbwNxD9DOAtJUVp-goy2eOLqE8b9bC_J7-EN_UbCZIF4kdlUf1luvw_vCInS89fLByBbrw/exec"}
+    ]
   }
 ];
 
@@ -180,7 +186,7 @@ function openModal(item){
   currentItem=item;
   modalNum.textContent=item.num;
   modalLabel.textContent=item.label;
-  modalUrl.textContent=item.url;
+  modalUrl.textContent="";
   renderQR(modalQrBox,item.url,200);
   overlay.classList.add("show");
 }
