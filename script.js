@@ -11,7 +11,7 @@ function renderQR(container, text, size){
   const safeText=String(text||"").trim();
   if(!safeText){return;}
 
-  const qrSize=Math.max(180, Number(size) || 220);
+  const qrSize=Math.max(140, Math.min(220, Number(size) || 180));
   new QRCode(container,{text:safeText,width:qrSize,height:qrSize,colorDark:"#111827",colorLight:"#ffffff",correctLevel:QRCode.CorrectLevel.H});
 }
 
@@ -44,7 +44,7 @@ function updateVisitCount(){
 }
 
 window.addEventListener("DOMContentLoaded",()=>{
-  pdaItems.forEach((item,i)=>{ renderQR(document.getElementById("pda-mini-"+i), item.id, 56); });
+  pdaItems.forEach((item,i)=>{ renderQR(document.getElementById("pda-mini-"+i), item.id, 36); });
   updateVisitCount();
 });
 
@@ -54,7 +54,25 @@ function openPdaModal(idx){
   const item=pdaItems[idx];
   document.getElementById("pdaModalTag").textContent=item.tag;
   document.getElementById("pdaModalId").textContent=item.id;
-  renderQR(document.getElementById("pdaModalQr"), item.id, 220);
+
+  const qrContainer=document.getElementById("pdaModalQr");
+  qrContainer.innerHTML="";
+
+  const displayCard=document.createElement("div");
+  displayCard.className="pda-display-card";
+
+  const scanImage=document.createElement("img");
+  scanImage.src="Pic/SVG/qr-code-scan.png";
+  scanImage.alt="QR scan illustration";
+  scanImage.className="pda-scan-illustration";
+  displayCard.appendChild(scanImage);
+
+  const qrWrap=document.createElement("div");
+  qrWrap.className="pda-inline-qr";
+  displayCard.appendChild(qrWrap);
+  renderQR(qrWrap, item.id, 84);
+
+  qrContainer.appendChild(displayCard);
   document.getElementById("pdaOverlay").classList.add("show");
 }
 function closePdaModal(){
@@ -142,7 +160,7 @@ function generateCustom(){
   const val=customInput.value.trim();
   if(!val){genErr.classList.add("show");genResult.classList.remove("show");return;}
   genErr.classList.remove("show");
-  renderQR(genQrBox,val,240);
+  renderQR(genQrBox,val,200);
   genValText.textContent=val;
   genResult.classList.add("show");
 }
@@ -191,7 +209,7 @@ function openModal(item){
   modalNum.textContent=item.num;
   modalLabel.textContent=item.label;
   modalUrl.textContent="";
-  renderQR(modalQrBox,item.url,240);
+  renderQR(modalQrBox,item.url,200);
   overlay.classList.add("show");
 }
 function closeModal(){overlay.classList.remove("show");currentItem=null;}
