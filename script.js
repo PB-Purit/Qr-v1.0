@@ -8,7 +8,11 @@ const pdaItems = [
 
 function renderQR(container, text, size){
   container.innerHTML="";
-  new QRCode(container,{text,width:size,height:size,colorDark:"#161616",colorLight:"#ffffff",correctLevel:QRCode.CorrectLevel.M});
+  const safeText=String(text||"").trim();
+  if(!safeText){return;}
+
+  const qrSize=Math.max(180, Number(size) || 220);
+  new QRCode(container,{text:safeText,width:qrSize,height:qrSize,colorDark:"#111827",colorLight:"#ffffff",correctLevel:QRCode.CorrectLevel.H});
 }
 
 const pdaMenu=document.getElementById("pdaMenu");
@@ -40,7 +44,7 @@ function updateVisitCount(){
 }
 
 window.addEventListener("DOMContentLoaded",()=>{
-  pdaItems.forEach((item,i)=>{ renderQR(document.getElementById("pda-mini-"+i), item.id, 42); });
+  pdaItems.forEach((item,i)=>{ renderQR(document.getElementById("pda-mini-"+i), item.id, 56); });
   updateVisitCount();
 });
 
@@ -50,7 +54,7 @@ function openPdaModal(idx){
   const item=pdaItems[idx];
   document.getElementById("pdaModalTag").textContent=item.tag;
   document.getElementById("pdaModalId").textContent=item.id;
-  renderQR(document.getElementById("pdaModalQr"), item.id, 180);
+  renderQR(document.getElementById("pdaModalQr"), item.id, 220);
   document.getElementById("pdaOverlay").classList.add("show");
 }
 function closePdaModal(){
@@ -79,25 +83,25 @@ const directorySections=[
   {
     title:"Opening ST.",
     items:[
-      {num:"G.01",label:"ร้านทองเยาวราช",               url:"https://surl.li/gviqqp"},
-      {num:"01",  label:"อุปกรณ์ไฟฟ้า",          url:"https://surl.li/snjgbf"},
-      {num:"02",  label:"ห้องลองชุด",             url:"https://surl.li/taymce"},
-      {num:"03",  label:"ขนม",                    url:"https://surl.lt/ttrqnm"},
-      {num:"04",  label:"ร้านทอง AURORA",                url:"https://surl.li/lfkwln"},
-      {num:"05",  label:"ห้องน้ำ",                url:"https://surl.li/wrfvbk"},
+      {num:"G.01",label:"ร้านทองเยาวราช",               url:"https://script.google.com/macros/s/AKfycbysxHWhfmZxcV9HtKQP0rV_xB6SMKGDRiYXGJVO1hmO88hhi9a_u_A2__76l8CmsTfd/exec?store=11142&point=%E0%B8%88%E0%B8%B8%E0%B8%94%E0%B8%95%E0%B8%A3%E0%B8%A7%E0%B8%88%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B8%88%E0%B8%B3%E0%B8%A3%E0%B8%AD%E0%B8%9A&location=%E0%B8%88%E0%B8%B8%E0%B8%94%E0%B8%95%E0%B8%A3%E0%B8%A7%E0%B8%88%E0%B8%A3%E0%B9%89%E0%B8%B2%E0%B8%99%E0%B8%97%E0%B8%AD%E0%B8%87%20%E0%B8%88%E0%B8%B8%E0%B8%94%E0%B8%97%E0%B8%B5%E0%B9%88%201&openExternalBrowser=1"},
+      {num:"01",  label:"อุปกรณ์ไฟฟ้า",          url:"https://script.google.com/macros/s/AKfycbysxHWhfmZxcV9HtKQP0rV_xB6SMKGDRiYXGJVO1hmO88hhi9a_u_A2__76l8CmsTfd/exec?store=11142&point=%E0%B8%88%E0%B8%B8%E0%B8%94%E0%B8%95%E0%B8%A3%E0%B8%A7%E0%B8%88%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B8%88%E0%B8%B3%E0%B8%A3%E0%B8%AD%E0%B8%9A&location=%E0%B8%88%E0%B8%B8%E0%B8%94%E0%B8%95%E0%B8%A3%E0%B8%A7%E0%B8%88%E0%B8%A0%E0%B8%B2%E0%B8%A2%E0%B9%83%E0%B8%99%E0%B8%AB%E0%B9%89%E0%B8%B2%E0%B8%87%20%E0%B8%88%E0%B8%B8%E0%B8%94%E0%B8%97%E0%B8%B5%E0%B9%88%201&openExternalBrowser=1"},
+      {num:"02",  label:"ห้องลองชุด",             url:"https://script.google.com/macros/s/AKfycbysxHWhfmZxcV9HtKQP0rV_xB6SMKGDRiYXGJVO1hmO88hhi9a_u_A2__76l8CmsTfd/exec?store=11142&point=%E0%B8%88%E0%B8%B8%E0%B8%94%E0%B8%95%E0%B8%A3%E0%B8%A7%E0%B8%88%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B8%88%E0%B8%B3%E0%B8%A3%E0%B8%AD%E0%B8%9A&location=%E0%B8%88%E0%B8%B8%E0%B8%94%E0%B8%95%E0%B8%A3%E0%B8%A7%E0%B8%88%E0%B8%A0%E0%B8%B2%E0%B8%A2%E0%B9%83%E0%B8%99%E0%B8%AB%E0%B9%89%E0%B8%B2%E0%B8%87%20%E0%B8%88%E0%B8%B8%E0%B8%94%E0%B8%97%E0%B8%B5%E0%B9%88%202&openExternalBrowser=1"},
+      {num:"03",  label:"ขนม",                    url:"https://script.google.com/macros/s/AKfycbysxHWhfmZxcV9HtKQP0rV_xB6SMKGDRiYXGJVO1hmO88hhi9a_u_A2__76l8CmsTfd/exec?store=11142&point=%E0%B8%88%E0%B8%B8%E0%B8%94%E0%B8%95%E0%B8%A3%E0%B8%A7%E0%B8%88%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B8%88%E0%B8%B3%E0%B8%A3%E0%B8%AD%E0%B8%9A&location=%E0%B8%88%E0%B8%B8%E0%B8%94%E0%B8%95%E0%B8%A3%E0%B8%A7%E0%B8%88%E0%B8%A0%E0%B8%B2%E0%B8%A2%E0%B9%83%E0%B8%99%E0%B8%AB%E0%B9%89%E0%B8%B2%E0%B8%87%20%E0%B8%88%E0%B8%B8%E0%B8%94%E0%B8%97%E0%B8%B5%E0%B9%88%203&openExternalBrowser=1"},
+      {num:"04",  label:"ร้านทอง AURORA",                url:"https://script.google.com/macros/s/AKfycbysxHWhfmZxcV9HtKQP0rV_xB6SMKGDRiYXGJVO1hmO88hhi9a_u_A2__76l8CmsTfd/exec?store=11142&point=%E0%B8%88%E0%B8%B8%E0%B8%94%E0%B8%95%E0%B8%A3%E0%B8%A7%E0%B8%88%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B8%88%E0%B8%B3%E0%B8%A3%E0%B8%AD%E0%B8%9A&location=%E0%B8%88%E0%B8%B8%E0%B8%94%E0%B8%95%E0%B8%A3%E0%B8%A7%E0%B8%88%E0%B8%A0%E0%B8%B2%E0%B8%A2%E0%B9%83%E0%B8%99%E0%B8%AB%E0%B9%89%E0%B8%B2%E0%B8%87%20%E0%B8%88%E0%B8%B8%E0%B8%94%E0%B8%97%E0%B8%B5%E0%B9%88%204&openExternalBrowser=1"},
+      {num:"05",  label:"ห้องน้ำ",                url:"https://script.google.com/macros/s/AKfycbysxHWhfmZxcV9HtKQP0rV_xB6SMKGDRiYXGJVO1hmO88hhi9a_u_A2__76l8CmsTfd/exec?store=11142&point=%E0%B8%88%E0%B8%B8%E0%B8%94%E0%B8%95%E0%B8%A3%E0%B8%A7%E0%B8%88%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B8%88%E0%B8%B3%E0%B8%A3%E0%B8%AD%E0%B8%9A&location=%E0%B8%88%E0%B8%B8%E0%B8%94%E0%B8%95%E0%B8%A3%E0%B8%A7%E0%B8%88%E0%B8%A0%E0%B8%B2%E0%B8%A2%E0%B9%83%E0%B8%99%E0%B8%AB%E0%B9%89%E0%B8%B2%E0%B8%87%20%E0%B8%88%E0%B8%B8%E0%B8%94%E0%B8%97%E0%B8%B5%E0%B9%88%205&openExternalBrowser=1"},
       
-      {num:"S.01",label:"Random Saving Petty cash",url:"https://surl.li/zhmlzq"},
+      {num:"S.01",label:"Random Saving Petty cash",url:"https://script.google.com/macros/s/AKfycbynnH9qYYMMcuHV8NhbYHbAAJqlg6gc8P76tgdnl4vmxvSq5v4p-PwwsjjeRzsQiHvz/exec"},
     ]
   },
   {
     title:"Night ST.",
     items:[
-      {num:"06",  label:"พนง",                    url:"https://surl.li/xsrvdj"},
-      {num:"07",  label:"Stock",                  url:"https://surl.li/dnzrgz"},
-      {num:"08",  label:"FF",                     url:"https://surl.li/lrdbbw"},
-      {num:"09",  label:"Door Amazon",            url:"https://surl.li/awrvpv"},
-      {num:"10",  label:"Food court",             url:"https://surl.li/spwrzh"},
-      {num:"Log (Night)", label:"Log Status",           url:"https://surl.li/ifpvwh"},
+      {num:"06",  label:"พนง",                    url:"https://script.google.com/macros/s/AKfycbysxHWhfmZxcV9HtKQP0rV_xB6SMKGDRiYXGJVO1hmO88hhi9a_u_A2__76l8CmsTfd/exec?store=11142&point=%E0%B8%88%E0%B8%B8%E0%B8%94%E0%B8%95%E0%B8%A3%E0%B8%A7%E0%B8%88%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B8%88%E0%B8%B3%E0%B8%A3%E0%B8%AD%E0%B8%9A&location=%E0%B8%88%E0%B8%B8%E0%B8%94%E0%B8%95%E0%B8%A3%E0%B8%A7%E0%B8%88%E0%B8%A0%E0%B8%B2%E0%B8%A2%E0%B9%83%E0%B8%99%E0%B8%AB%E0%B9%89%E0%B8%B2%E0%B8%87%20%E0%B8%88%E0%B8%B8%E0%B8%94%E0%B8%97%E0%B8%B5%E0%B9%88%206&openExternalBrowser=1"},
+      {num:"07",  label:"Stock",                  url:"https://script.google.com/macros/s/AKfycbysxHWhfmZxcV9HtKQP0rV_xB6SMKGDRiYXGJVO1hmO88hhi9a_u_A2__76l8CmsTfd/exec?store=11142&point=%E0%B8%88%E0%B8%B8%E0%B8%94%E0%B8%95%E0%B8%A3%E0%B8%A7%E0%B8%88%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B8%88%E0%B8%B3%E0%B8%A3%E0%B8%AD%E0%B8%9A&location=%E0%B8%88%E0%B8%B8%E0%B8%94%E0%B8%95%E0%B8%A3%E0%B8%A7%E0%B8%88%E0%B8%A0%E0%B8%B2%E0%B8%A2%E0%B9%83%E0%B8%99%E0%B8%AB%E0%B9%89%E0%B8%B2%E0%B8%87%20%E0%B8%88%E0%B8%B8%E0%B8%94%E0%B8%97%E0%B8%B5%E0%B9%88%207&openExternalBrowser=1"},
+      {num:"08",  label:"FF",                     url:"https://script.google.com/macros/s/AKfycbysxHWhfmZxcV9HtKQP0rV_xB6SMKGDRiYXGJVO1hmO88hhi9a_u_A2__76l8CmsTfd/exec?store=11142&point=%E0%B8%88%E0%B8%B8%E0%B8%94%E0%B8%95%E0%B8%A3%E0%B8%A7%E0%B8%88%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B8%88%E0%B8%B3%E0%B8%A3%E0%B8%AD%E0%B8%9A&location=%E0%B8%88%E0%B8%B8%E0%B8%94%E0%B8%95%E0%B8%A3%E0%B8%A7%E0%B8%88%E0%B8%A0%E0%B8%B2%E0%B8%A2%E0%B9%83%E0%B8%99%E0%B8%AB%E0%B9%89%E0%B8%B2%E0%B8%87%20%E0%B8%88%E0%B8%B8%E0%B8%94%E0%B8%97%E0%B8%B5%E0%B9%88%208&openExternalBrowser=1"},
+      {num:"09",  label:"Door Amazon",            url:"https://script.google.com/macros/s/AKfycbysxHWhfmZxcV9HtKQP0rV_xB6SMKGDRiYXGJVO1hmO88hhi9a_u_A2__76l8CmsTfd/exec?store=11142&point=%E0%B8%88%E0%B8%B8%E0%B8%94%E0%B8%95%E0%B8%A3%E0%B8%A7%E0%B8%88%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B8%88%E0%B8%B3%E0%B8%A3%E0%B8%AD%E0%B8%9A&location=%E0%B8%88%E0%B8%B8%E0%B8%94%E0%B8%95%E0%B8%A3%E0%B8%A7%E0%B8%88%E0%B8%A0%E0%B8%B2%E0%B8%A2%E0%B9%83%E0%B8%99%E0%B8%AB%E0%B9%89%E0%B8%B2%E0%B8%87%20%E0%B8%88%E0%B8%B8%E0%B8%94%E0%B8%97%E0%B8%B5%E0%B9%88%209&openExternalBrowser=1"},
+      {num:"10",  label:"Food court",             url:"https://script.google.com/macros/s/AKfycbysxHWhfmZxcV9HtKQP0rV_xB6SMKGDRiYXGJVO1hmO88hhi9a_u_A2__76l8CmsTfd/exec?store=11142&point=%E0%B8%88%E0%B8%B8%E0%B8%94%E0%B8%95%E0%B8%A3%E0%B8%A7%E0%B8%88%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B8%88%E0%B8%B3%E0%B8%A3%E0%B8%AD%E0%B8%9A&location=%E0%B8%88%E0%B8%B8%E0%B8%94%E0%B8%95%E0%B8%A3%E0%B8%A7%E0%B8%88%E0%B8%A0%E0%B8%B2%E0%B8%A2%E0%B9%83%E0%B8%99%E0%B8%AB%E0%B9%89%E0%B8%B2%E0%B8%87%20%E0%B8%88%E0%B8%B8%E0%B8%94%E0%B8%97%E0%B8%B5%E0%B9%88%2010&openExternalBrowser=1"},
+      {num:"Log (Night)", label:"Log Status",           url:"https://script.google.com/macros/s/AKfycbyWV0pVza8L8YCmnXW2hOm4TX6j5Qb7CIucRFIo7qdLw7CSjFTy9gtje0_DPKcSCO41rA/exec"},
     ]
   },
   {
@@ -138,7 +142,7 @@ function generateCustom(){
   const val=customInput.value.trim();
   if(!val){genErr.classList.add("show");genResult.classList.remove("show");return;}
   genErr.classList.remove("show");
-  renderQR(genQrBox,val,200);
+  renderQR(genQrBox,val,240);
   genValText.textContent=val;
   genResult.classList.add("show");
 }
@@ -187,7 +191,7 @@ function openModal(item){
   modalNum.textContent=item.num;
   modalLabel.textContent=item.label;
   modalUrl.textContent="";
-  renderQR(modalQrBox,item.url,200);
+  renderQR(modalQrBox,item.url,240);
   overlay.classList.add("show");
 }
 function closeModal(){overlay.classList.remove("show");currentItem=null;}
