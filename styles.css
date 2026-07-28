@@ -81,11 +81,7 @@ body{
   padding:3px 8px;border-radius:999px;margin-bottom:8px;
 }
 .pda-modal-id{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:var(--text);word-break:break-all;margin:0 0 12px;}
-.pda-modal .qr-box{background:linear-gradient(145deg, #fbfcff, #f0f4ff);padding:10px;border-radius:16px;line-height:0;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;box-shadow:inset 0 1px 0 rgba(255,255,255,.7), 0 10px 20px rgba(0,0,0,.16);}
-.pda-display-card{display:flex;flex-direction:column;align-items:center;gap:10px;width:100%;}
-.pda-scan-illustration{width:100%;max-width:150px;height:auto;object-fit:contain;border-radius:14px;filter:drop-shadow(0 8px 16px rgba(0,0,0,.14));}
-.pda-inline-qr{display:inline-flex;align-items:center;justify-content:center;padding:6px;border-radius:12px;background:#fff;box-shadow:0 6px 14px rgba(0,0,0,.12);}
-.pda-inline-qr canvas,.pda-inline-qr img{max-width:84px;max-height:84px;}
+.pda-modal .qr-box{background:#fff;padding:8px;border-radius:10px;line-height:0;margin:0 auto 12px;display:inline-flex;}
 .pda-modal .btn{width:100%;}
 
 /* HEADER */

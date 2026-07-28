@@ -54,25 +54,7 @@ function openPdaModal(idx){
   const item=pdaItems[idx];
   document.getElementById("pdaModalTag").textContent=item.tag;
   document.getElementById("pdaModalId").textContent=item.id;
-
-  const qrContainer=document.getElementById("pdaModalQr");
-  qrContainer.innerHTML="";
-
-  const displayCard=document.createElement("div");
-  displayCard.className="pda-display-card";
-
-  const scanImage=document.createElement("img");
-  scanImage.src="Pic/SVG/qr-code-scan.png";
-  scanImage.alt="QR scan illustration";
-  scanImage.className="pda-scan-illustration";
-  displayCard.appendChild(scanImage);
-
-  const qrWrap=document.createElement("div");
-  qrWrap.className="pda-inline-qr";
-  displayCard.appendChild(qrWrap);
-  renderQR(qrWrap, item.id, 84);
-
-  qrContainer.appendChild(displayCard);
+  renderQR(document.getElementById("pdaModalQr"), item.id, 180);
   document.getElementById("pdaOverlay").classList.add("show");
 }
 function closePdaModal(){
