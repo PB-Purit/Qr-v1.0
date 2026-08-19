@@ -11,8 +11,18 @@ function renderQR(container, text, size){
   const safeText=String(text||"").trim();
   if(!safeText){return;}
 
+  // Ensure proper UTF-8 encoding for languages like Thai before generating QR
+  // qrcodejs expects byte-oriented input; converting via encodeURIComponent
+  // then unescape produces the correct byte string for Unicode text.
+  let qrText;
+  try{
+    qrText = unescape(encodeURIComponent(safeText));
+  }catch(e){
+    qrText = safeText;
+  }
+
   const qrSize=Math.max(140, Math.min(220, Number(size) || 180));
-  new QRCode(container,{text:safeText,width:qrSize,height:qrSize,colorDark:"#111827",colorLight:"#ffffff",correctLevel:QRCode.CorrectLevel.H});
+  new QRCode(container,{text:qrText,width:qrSize,height:qrSize,colorDark:"#111827",colorLight:"#ffffff",correctLevel:QRCode.CorrectLevel.H});
 }
 
 const pdaMenu=document.getElementById("pdaMenu");
