@@ -35,6 +35,11 @@ export const openingStations: Station[] = [
     label: "2.6 ห้องน้ำ",
     url: "https://script.google.com/macros/s/AKfycbysxHWhfmZxcV9HtKQP0rV_xB6SMKGDRiYXGJVO1hmO88hhi9a_u_A2__76l8CmsTfd/exec?store=11142&point=%E0%B8%88%E0%B8%B8%E0%B8%94%E0%B8%95%E0%B8%A3%E0%B8%A7%E0%B8%88%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B8%88%E0%B8%B3%E0%B8%A3%E0%B8%AD%E0%B8%9A&location=%E0%B8%88%E0%B8%B8%E0%B8%94%E0%B8%95%E0%B8%A3%E0%B8%A7%E0%B8%88%E0%B8%A0%E0%B8%B2%E0%B8%A2%E0%B9%83%E0%B8%99%E0%B8%AB%E0%B9%89%E0%B8%B2%E0%B8%87%20%E0%B8%88%E0%B8%B8%E0%B8%94%E0%B8%97%E0%B8%B5%E0%B9%88%205&openExternalBrowser=1",
   },
+  {
+    id: "open-7",
+    label: '2.7 Random Saving "Petty cash"',
+    url: "https://script.google.com/macros/s/AKfycbynnH9qYYMMcuHV8NhbYHbAAJqlg6gc8P76tgdnl4vmxvSq5v4p-PwwsjjeRzsQiHvz/exec",
+  },
 ];
 
 export const nightStations: Station[] = [
