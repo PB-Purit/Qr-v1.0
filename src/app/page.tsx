@@ -31,6 +31,7 @@ export default function HomePage() {
                 title={station.label}
                 value={station.url}
                 fileName={station.id}
+                compact
               />
             ))}
           </div>
@@ -45,6 +46,7 @@ export default function HomePage() {
                 title={station.label}
                 value={station.url}
                 fileName={station.id}
+                compact
               />
             ))}
           </div>
@@ -57,6 +59,7 @@ export default function HomePage() {
               title={smartLogStore.label}
               value={smartLogStore.url}
               fileName={smartLogStore.id}
+              compact
             />
           </div>
         </section>

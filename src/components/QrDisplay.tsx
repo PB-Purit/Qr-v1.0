@@ -21,9 +21,11 @@ export function QrDisplay({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const frameRef = useRef<HTMLDivElement>(null);
   const [ready, setReady] = useState(false);
-  const [size, setSize] = useState(compact ? 168 : 200);
+  const [size, setSize] = useState(compact ? 180 : 220);
+  const [expanded, setExpanded] = useState(!compact);
   const hasValue = Boolean(value.trim());
   const isUrl = /^https?:\/\//i.test(value);
+  const qrSize = Math.max(96, size - 16);
 
   useEffect(() => {
     setReady(true);
@@ -53,28 +55,26 @@ export function QrDisplay({
     link.click();
   };
 
-  return (
-    <article className="hover-glow rounded-2xl border border-white/10 bg-[#141414] p-3 sm:p-4">
-      <h3 className="text-sm font-semibold text-white sm:text-base">{title}</h3>
-      {subtitle ? (
-        <p className="mt-1 break-all text-xs text-white/60">{subtitle}</p>
-      ) : null}
+  const content = (
+    <>
+      {subtitle ? <p className="mt-1 break-all text-xs text-white/60">{subtitle}</p> : null}
       <div
-        className={`mx-auto mt-3 aspect-square w-full overflow-hidden rounded-xl bg-white ${
-          compact ? "max-w-[176px]" : "max-w-[208px] sm:max-w-[224px]"
+        className={`mx-auto mt-3 flex aspect-square w-full items-center justify-center rounded-2xl border border-black/5 bg-white p-2 shadow-[inset_0_0_0_1px_rgba(0,0,0,0.03)] ${
+          compact ? "max-w-[180px]" : "max-w-[220px] sm:max-w-[240px]"
         }`}
       >
-        <div ref={frameRef} className="h-full w-full">
+        <div ref={frameRef} className="relative h-full w-full overflow-hidden rounded-xl bg-white">
           {hasValue && ready ? (
             <QRCodeCanvas
               ref={canvasRef}
               value={value}
-              size={size}
+              size={qrSize}
               level="M"
               marginSize={2}
               bgColor="#ffffff"
               fgColor="#000000"
-              className="block h-full w-full"
+              className="block h-full w-full object-contain"
+              style={{ width: "100%", height: "100%" }}
             />
           ) : (
             <div className="flex h-full w-full items-center justify-center text-sm text-black/50">
@@ -83,26 +83,53 @@ export function QrDisplay({
           )}
         </div>
       </div>
-      <div className="mt-3 flex flex-col gap-2 sm:flex-row sm:flex-wrap">
+      <div className="mt-3 flex justify-center">
+        <div className="flex w-full max-w-[260px] flex-col items-center gap-2 sm:flex-row sm:justify-center sm:flex-wrap">
+          <button
+            type="button"
+            onClick={download}
+            disabled={!hasValue || !ready}
+            className="click-pop min-h-10 w-full rounded-full bg-[#ff7a18] px-4 py-2 text-sm font-semibold text-black transition hover:bg-[#ffb347] disabled:cursor-not-allowed disabled:opacity-40 sm:w-auto"
+          >
+            ดาวน์โหลด
+          </button>
+          {isUrl ? (
+            <a
+              href={value}
+              target="_blank"
+              rel="noreferrer"
+              className="click-pop flex min-h-10 w-full items-center justify-center rounded-full border border-[#ff7a18] px-4 py-2 text-center text-sm font-semibold text-[#ff7a18] transition hover:bg-[#ff7a18] hover:text-black sm:w-auto"
+            >
+              เปิดลิงก์ / สแกน
+            </a>
+          ) : null}
+        </div>
+      </div>
+    </>
+  );
+
+  if (compact) {
+    return (
+      <article className="hover-glow rounded-2xl border border-white/10 bg-[#141414] p-3 sm:p-4">
         <button
           type="button"
-          onClick={download}
-          disabled={!hasValue || !ready}
-          className="click-pop min-h-10 w-full rounded-full bg-[#ff7a18] px-4 py-2 text-sm font-semibold text-black transition hover:bg-[#ffb347] disabled:cursor-not-allowed disabled:opacity-40 sm:w-auto"
+          onClick={() => setExpanded((current) => !current)}
+          className="flex w-full items-center justify-between gap-3 rounded-xl border border-white/10 bg-[#1b1b1b] px-3 py-3 text-left text-white transition hover:border-[#ff7a18]/70"
         >
-          ดาวน์โหลด
+          <span className="text-sm font-semibold sm:text-base">{title}</span>
+          <span className="rounded-full border border-[#ff7a18]/60 bg-[#ff7a18]/10 px-2 py-1 text-[10px] font-medium uppercase tracking-[0.12em] text-[#ffb347]">
+            {expanded ? "ซ่อน" : "ดู QR"}
+          </span>
         </button>
-        {isUrl ? (
-          <a
-            href={value}
-            target="_blank"
-            rel="noreferrer"
-            className="click-pop flex min-h-10 w-full items-center justify-center rounded-full border border-[#ff7a18] px-4 py-2 text-center text-sm font-semibold text-[#ff7a18] transition hover:bg-[#ff7a18] hover:text-black sm:w-auto"
-          >
-            เปิดลิงก์ / สแกน
-          </a>
-        ) : null}
-      </div>
+        {expanded ? <div className="mt-3">{content}</div> : null}
+      </article>
+    );
+  }
+
+  return (
+    <article className="hover-glow rounded-2xl border border-white/10 bg-[#141414] p-3 sm:p-4">
+      <h3 className="text-sm font-semibold text-white sm:text-base">{title}</h3>
+      {content}
     </article>
   );
 }

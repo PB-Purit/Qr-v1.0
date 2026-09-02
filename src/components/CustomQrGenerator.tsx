@@ -28,11 +28,7 @@ export function CustomQrGenerator() {
             fileName="custom-qr"
           />
         </div>
-      ) : (
-        <p className="mt-4 rounded-2xl border border-dashed border-white/20 p-4 text-sm text-white/50 sm:p-6">
-          พิมพ์ข้อความแล้ว QR Code จะแสดงที่นี่ พร้อมปุ่มดาวน์โหลด
-        </p>
-      )}
+      ) : null}
     </section>
   );
 }
