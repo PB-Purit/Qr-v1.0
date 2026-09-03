@@ -10,6 +10,7 @@ type QrDisplayProps = {
   fileName?: string;
   compact?: boolean;
   hideSubtitle?: boolean;
+  mini?: boolean;
 };
 
 export function QrDisplay({
@@ -19,11 +20,12 @@ export function QrDisplay({
   fileName,
   compact = false,
   hideSubtitle = false,
+  mini = false,
 }: QrDisplayProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const frameRef = useRef<HTMLDivElement>(null);
   const [ready, setReady] = useState(false);
-  const [size, setSize] = useState(compact ? 180 : 220);
+  const [size, setSize] = useState(mini ? 140 : compact ? 180 : 220);
   const [expanded, setExpanded] = useState(!compact);
   const hasValue = Boolean(value.trim());
   const isUrl = /^https?:\/\//i.test(value);
@@ -64,7 +66,11 @@ export function QrDisplay({
       ) : null}
       <div
         className={`mx-auto mt-3 flex aspect-square w-full items-center justify-center rounded-2xl border border-black/5 bg-white p-2 shadow-[inset_0_0_0_1px_rgba(0,0,0,0.03)] ${
-          compact ? "max-w-[180px]" : "max-w-[220px] sm:max-w-[240px]"
+          mini
+            ? "max-w-[140px]"
+            : compact
+              ? "max-w-[180px]"
+              : "max-w-[220px] sm:max-w-[240px]"
         }`}
       >
         <div ref={frameRef} className="relative h-full w-full overflow-hidden rounded-xl bg-white">
@@ -93,7 +99,7 @@ export function QrDisplay({
             type="button"
             onClick={download}
             disabled={!hasValue || !ready}
-            className="click-pop min-h-10 w-full rounded-full bg-[#ff7a18] px-4 py-2 text-sm font-semibold text-black transition hover:bg-[#ffb347] disabled:cursor-not-allowed disabled:opacity-40 sm:w-auto"
+            className={`${mini ? "min-h-8 px-2.5 py-1.5 text-xs" : "min-h-10 px-4 py-2 text-sm"} click-pop w-full rounded-full bg-[#ff7a18] font-semibold text-black transition hover:bg-[#ffb347] disabled:cursor-not-allowed disabled:opacity-40 sm:w-auto`}
           >
             ดาวน์โหลด
           </button>
@@ -102,7 +108,7 @@ export function QrDisplay({
               href={value}
               target="_blank"
               rel="noreferrer"
-              className="click-pop flex min-h-10 w-full items-center justify-center rounded-full border border-[#ff7a18] px-4 py-2 text-center text-sm font-semibold text-[#ff7a18] transition hover:bg-[#ff7a18] hover:text-black sm:w-auto"
+              className={`${mini ? "min-h-8 px-2.5 py-1.5 text-xs" : "min-h-10 px-4 py-2 text-sm"} click-pop flex w-full items-center justify-center rounded-full border border-[#ff7a18] text-center font-semibold text-[#ff7a18] transition hover:bg-[#ff7a18] hover:text-black sm:w-auto`}
             >
               เปิดลิงก์ / สแกน
             </a>
@@ -114,14 +120,16 @@ export function QrDisplay({
 
   if (compact) {
     return (
-      <article className="hover-glow rounded-2xl border border-white/10 bg-[#141414] p-3 sm:p-4">
+      <article
+        className={`hover-glow rounded-2xl border border-white/10 bg-[#141414] ${mini ? "p-2" : "p-3 sm:p-4"}`}
+      >
         <button
           type="button"
           onClick={() => setExpanded((current) => !current)}
-          className="flex w-full items-center justify-between gap-3 rounded-xl border border-white/10 bg-[#1b1b1b] px-3 py-3 text-left text-white transition hover:border-[#ff7a18]/70"
+          className={`flex w-full items-center justify-between gap-2 rounded-xl border border-white/10 bg-[#1b1b1b] text-left text-white transition hover:border-[#ff7a18]/70 ${mini ? "px-2 py-2" : "gap-3 px-3 py-3"}`}
         >
-          <span className="text-sm font-semibold sm:text-base">{title}</span>
-          <span className="rounded-full border border-[#ff7a18]/60 bg-[#ff7a18]/10 px-2 py-1 text-[10px] font-medium uppercase tracking-[0.12em] text-[#ffb347]">
+          <span className={`${mini ? "text-xs" : "text-sm sm:text-base"} min-w-0 break-words font-semibold`}>{title}</span>
+          <span className="shrink-0 rounded-full border border-[#ff7a18]/60 bg-[#ff7a18]/10 px-2 py-1 text-[10px] font-medium uppercase tracking-[0.12em] text-[#ffb347]">
             {expanded ? "ซ่อน" : "ดู QR"}
           </span>
         </button>
