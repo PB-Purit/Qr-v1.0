@@ -38,7 +38,7 @@ export function MenuDrawer({ open, onClose }: MenuDrawerProps) {
         <div className="space-y-5 overflow-y-auto p-3 pb-[max(1.25rem,env(safe-area-inset-bottom))] sm:p-4">
           <section>
             <h3 className="mb-3 text-sm font-semibold uppercase tracking-wide text-white/70">
-              PDA / PAD
+              PDA
             </h3>
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               {pdaItems.map((item) => (

@@ -66,7 +66,7 @@ export default function HomePage() {
       </main>
 
       <footer className="border-t border-[#ff7a18]/30 px-4 py-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] text-center text-sm text-white/80">
-        Make By Leo 🎉
+        Make By Leo 😊🎉
       </footer>
     </div>
   );
