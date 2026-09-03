@@ -47,6 +47,7 @@ export function MenuDrawer({ open, onClose }: MenuDrawerProps) {
                   compact
                   title={item.title}
                   subtitle={item.value}
+                  hideSubtitle
                   value={item.value}
                   fileName={item.id}
                 />

@@ -9,6 +9,7 @@ type QrDisplayProps = {
   subtitle?: string;
   fileName?: string;
   compact?: boolean;
+  hideSubtitle?: boolean;
 };
 
 export function QrDisplay({
@@ -17,6 +18,7 @@ export function QrDisplay({
   subtitle,
   fileName,
   compact = false,
+  hideSubtitle = false,
 }: QrDisplayProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const frameRef = useRef<HTMLDivElement>(null);
@@ -57,7 +59,9 @@ export function QrDisplay({
 
   const content = (
     <>
-      {subtitle ? <p className="mt-1 break-all text-xs text-white/60">{subtitle}</p> : null}
+      {subtitle && !hideSubtitle ? (
+        <p className="mt-1 break-all text-xs text-white/60">{subtitle}</p>
+      ) : null}
       <div
         className={`mx-auto mt-3 flex aspect-square w-full items-center justify-center rounded-2xl border border-black/5 bg-white p-2 shadow-[inset_0_0_0_1px_rgba(0,0,0,0.03)] ${
           compact ? "max-w-[180px]" : "max-w-[220px] sm:max-w-[240px]"

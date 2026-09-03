@@ -83,7 +83,7 @@ export const smartLogStore: Station = {
 
 export const pdaItems = [
   { id: "pda-log", title: "PDA Log", value: "11142pda1" },
-  { id: "pad-id", title: "PAD ID", value: "2448961" },
-  { id: "pad-pass", title: "PAD Pass", value: "13Apr1988780" },
+  { id: "pda-id", title: "PDA ID", value: "2448961" },
+  { id: "pda-pass", title: "PDA Pass", value: "13Apr1988780" },
   { id: "c-ice", title: "C ice", value: "8857121917050" },
 ];
