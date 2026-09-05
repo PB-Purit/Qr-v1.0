@@ -6,7 +6,6 @@ import {
   Info,
   LayoutDashboard,
   Menu,
-  MessageSquareText,
   PhoneCall,
 } from "lucide-react";
 
@@ -21,7 +20,7 @@ export function Header({ onOpenMenu }: HeaderProps) {
     { label: "Dashboard", icon: LayoutDashboard },
     { label: "Emergency contact", icon: PhoneCall },
     { label: "About", icon: Info },
-    { label: "Webboard", icon: MessageSquareText },
+    
   ];
 
   return (
@@ -29,7 +28,7 @@ export function Header({ onOpenMenu }: HeaderProps) {
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-3 py-3 sm:px-4 md:px-6">
         <div className="min-w-0 pr-2">
           <p className="text-[10px] leading-tight text-[#ff7a18] sm:text-xs">
-            ST 11142 ( Loss Prevention )
+            ST 11142 (Loss Prevention)
           </p>
           <h1 className="text-lg font-bold leading-tight text-white sm:text-xl md:text-2xl">
             Store PM 1
@@ -37,28 +36,15 @@ export function Header({ onOpenMenu }: HeaderProps) {
         </div>
         <nav aria-label="เมนูหลัก" className="flex min-w-0 items-center gap-1 sm:gap-2">
           {headerItems.map(({ label, icon: Icon }) => (
-            label === "Webboard" ? (
-              <a
-                key={label}
-                href="#webboard"
-                title={label}
-                aria-label={label}
-                className="flex h-9 w-8 shrink-0 items-center justify-center gap-1.5 rounded-lg border border-white/10 text-white/75 transition hover:border-[#ff7a18] hover:bg-[#ff7a18]/10 hover:text-[#ffb347] sm:h-10 sm:w-auto sm:px-2.5"
-              >
-                <Icon aria-hidden="true" size={17} strokeWidth={1.8} />
-                <span className="hidden text-xs font-medium lg:inline">{label}</span>
-              </a>
-            ) : (
-              <span
-                key={label}
-                title={label}
-                aria-label={label}
-                className="flex h-9 w-8 shrink-0 items-center justify-center gap-1.5 rounded-lg border border-white/10 text-white/75 transition hover:border-[#ff7a18] hover:bg-[#ff7a18]/10 hover:text-[#ffb347] sm:h-10 sm:w-auto sm:px-2.5"
-              >
-                <Icon aria-hidden="true" size={17} strokeWidth={1.8} />
-                <span className="hidden text-xs font-medium lg:inline">{label}</span>
-              </span>
-            )
+            <span
+              key={label}
+              title={label}
+              aria-label={label}
+              className="flex h-9 w-8 shrink-0 items-center justify-center gap-1.5 rounded-lg border border-white/10 text-white/75 transition hover:border-[#ff7a18] hover:bg-[#ff7a18]/10 hover:text-[#ffb347] sm:h-10 sm:w-auto sm:px-2.5"
+            >
+              <Icon aria-hidden="true" size={17} strokeWidth={1.8} />
+              <span className="hidden text-xs font-medium lg:inline">{label}</span>
+            </span>
           ))}
         </nav>
         <button

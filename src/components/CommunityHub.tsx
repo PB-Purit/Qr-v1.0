@@ -187,19 +187,13 @@ export function CommunityHub() {
     };
 
     void loadMessages();
-    const refreshInterval = window.setInterval(() => {
-      if (document.visibilityState === "visible") void loadMessages();
-    }, 5000);
-    const refreshOnReturn = () => {
+    const refreshOnVisibilityChange = () => {
       if (document.visibilityState === "visible") void loadMessages();
     };
-    window.addEventListener("focus", refreshOnReturn);
-    document.addEventListener("visibilitychange", refreshOnReturn);
+    document.addEventListener("visibilitychange", refreshOnVisibilityChange);
     return () => {
       cancelled = true;
-      window.clearInterval(refreshInterval);
-      window.removeEventListener("focus", refreshOnReturn);
-      document.removeEventListener("visibilitychange", refreshOnReturn);
+      document.removeEventListener("visibilitychange", refreshOnVisibilityChange);
     };
   }, []);
 
