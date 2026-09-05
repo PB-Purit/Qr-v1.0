@@ -12,6 +12,7 @@ type ChatMessage = {
 const messages: ChatMessage[] = [];
 const nameOwners = new Map<string, string>();
 const maxMessages = 200;
+const messageLifetimeMs = 24 * 60 * 60 * 1000;
 
 const getClientIp = (request: NextRequest) => {
   const forwardedFor = request.headers.get("x-forwarded-for");
@@ -41,11 +42,27 @@ const fingerprintIp = (ip: string) =>
 
 const normalizeName = (name: string) => name.normalize("NFKC").toLocaleLowerCase();
 
+const pruneExpiredMessages = () => {
+  const cutoff = Date.now() - messageLifetimeMs;
+  const activeMessages = messages.filter((message) => Date.parse(message.sentAt) > cutoff);
+  messages.splice(0, messages.length, ...activeMessages);
+
+  const activeNames = new Set(messages.map((message) => normalizeName(message.name)));
+  nameOwners.forEach((_, name) => {
+    if (!activeNames.has(name)) nameOwners.delete(name);
+  });
+};
+
 export async function GET() {
-  return NextResponse.json({ messages });
+  pruneExpiredMessages();
+  return NextResponse.json(
+    { messages },
+    { headers: { "Cache-Control": "no-store, max-age=0" } },
+  );
 }
 
 export async function POST(request: NextRequest) {
+  pruneExpiredMessages();
   const body = (await request.json().catch(() => null)) as {
     name?: unknown;
     message?: unknown;

@@ -13,6 +13,7 @@ import {
   Plus,
   Send,
   Trash2,
+  UserRound,
   X,
 } from "lucide-react";
 
@@ -43,6 +44,7 @@ type ChatMessage = {
 };
 
 const postsStorageKey = "store-pm-1-webboard";
+const defaultPostAuthor = "Store PM 1";
 const boardDatabaseName = "store-pm-1-board";
 const boardStoreName = "posts";
 const maxAttachmentSize = 10 * 1024 * 1024;
@@ -97,6 +99,16 @@ const formatFileSize = (size: number) => {
   return `${(size / (1024 * 1024)).toFixed(1)} MB`;
 };
 
+const getUniqueAuthors = (posts: BoardPost[]) => {
+  const authors = new Map<string, string>();
+  posts.forEach((post) => {
+    const author = post.author?.trim() || "ไม่ระบุชื่อ";
+    const authorKey = author.normalize("NFKC").toLocaleLowerCase();
+    if (!authors.has(authorKey)) authors.set(authorKey, author);
+  });
+  return Array.from(authors.values());
+};
+
 const readFile = (file: File) =>
   new Promise<Attachment>((resolve, reject) => {
     const reader = new FileReader();
@@ -118,6 +130,7 @@ export function CommunityHub() {
   const [ready, setReady] = useState(false);
   const [postTitle, setPostTitle] = useState("");
   const [postBody, setPostBody] = useState("");
+  const [postAuthor, setPostAuthor] = useState(defaultPostAuthor);
   const [attachments, setAttachments] = useState<Attachment[]>([]);
   const [attachmentError, setAttachmentError] = useState("");
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -174,6 +187,9 @@ export function CommunityHub() {
     };
 
     void loadMessages();
+    const refreshInterval = window.setInterval(() => {
+      if (document.visibilityState === "visible") void loadMessages();
+    }, 5000);
     const refreshOnReturn = () => {
       if (document.visibilityState === "visible") void loadMessages();
     };
@@ -181,6 +197,7 @@ export function CommunityHub() {
     document.addEventListener("visibilitychange", refreshOnReturn);
     return () => {
       cancelled = true;
+      window.clearInterval(refreshInterval);
       window.removeEventListener("focus", refreshOnReturn);
       document.removeEventListener("visibilitychange", refreshOnReturn);
     };
@@ -242,6 +259,7 @@ export function CommunityHub() {
 
   const savePost = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const author = postAuthor.trim() || defaultPostAuthor;
     const title = postTitle.trim();
     const body = postBody.trim();
     if (!title || !body) return;
@@ -254,6 +272,7 @@ export function CommunityHub() {
                 ...post,
                 title,
                 body,
+                author,
                 attachments,
                 updatedAt: new Date().toISOString(),
               }
@@ -266,7 +285,7 @@ export function CommunityHub() {
           id: makeId(),
           title,
           body,
-          author: "Store PM 1",
+          author,
           createdAt: new Date().toISOString(),
           attachments,
         },
@@ -280,6 +299,7 @@ export function CommunityHub() {
     setEditingId(post.id);
     setPostTitle(post.title);
     setPostBody(post.body);
+    setPostAuthor(post.author?.trim() || defaultPostAuthor);
     setAttachments(post.attachments || []);
     setAttachmentError("");
   };
@@ -314,18 +334,25 @@ export function CommunityHub() {
     }
   };
 
+  const uniqueAuthors = getUniqueAuthors(posts);
+
   return (
     <section
       id="webboard"
-      className="animate-rise grid scroll-mt-24 gap-4 lg:grid-cols-[1.2fr_0.8fr]"
+      className="animate-rise grid min-w-0 scroll-mt-24 gap-4 lg:grid-cols-[minmax(0,1.2fr)_minmax(18rem,0.8fr)]"
     >
-      <div className="rounded-2xl border border-white/10 bg-[#111] p-3 sm:p-4">
+      <div className="min-w-0 rounded-2xl border border-white/10 bg-[#111] p-3 sm:p-4">
         <div className="flex items-center justify-between gap-3">
           <div>
             <p className="text-xs font-medium uppercase tracking-[0.18em] text-[#ff7a18]">
               Community
             </p>
             <h2 className="text-lg font-bold sm:text-xl">Webboard</h2>
+            {uniqueAuthors.length > 0 ? (
+              <p className="mt-1 break-words text-xs text-white/50">
+                ผู้โพสต์: <span className="text-white/75">{uniqueAuthors.join(" · ")}</span>
+              </p>
+            ) : null}
           </div>
           <MessageCircle className="text-[#ffb347]" aria-hidden="true" size={24} />
         </div>
@@ -357,6 +384,13 @@ export function CommunityHub() {
             maxLength={1000}
             rows={3}
             className="w-full resize-y rounded-lg border border-white/15 bg-black/40 px-3 py-2 text-sm outline-none placeholder:text-white/40 focus:border-[#ff7a18]"
+          />
+          <input
+            value={postAuthor}
+            onChange={(event) => setPostAuthor(event.target.value)}
+            placeholder="ชื่อผู้โพสต์"
+            maxLength={40}
+            className="min-h-10 w-full rounded-lg border border-white/15 bg-black/40 px-3 text-sm outline-none placeholder:text-white/40 focus:border-[#ff7a18]"
           />
           <div className="space-y-2">
             <label className="inline-flex min-h-10 cursor-pointer items-center gap-2 rounded-lg border border-dashed border-[#ff7a18]/60 px-3 py-2 text-sm text-[#ffb347] hover:bg-[#ff7a18]/10">
@@ -401,7 +435,7 @@ export function CommunityHub() {
           <button
             type="submit"
             disabled={!postTitle.trim() || !postBody.trim()}
-            className="inline-flex min-h-10 items-center justify-center gap-2 rounded-lg bg-[#ff7a18] px-4 py-2 text-sm font-semibold text-black transition hover:bg-[#ffb347] disabled:cursor-not-allowed disabled:opacity-40"
+            className="inline-flex min-h-10 w-full items-center justify-center gap-2 rounded-lg bg-[#ff7a18] px-4 py-2 text-sm font-semibold text-black transition hover:bg-[#ffb347] disabled:cursor-not-allowed disabled:opacity-40 sm:w-auto"
           >
             {editingId ? <Pencil size={16} aria-hidden="true" /> : <Plus size={16} aria-hidden="true" />}
             {editingId ? "บันทึกการแก้ไข" : "เพิ่มโพสต์"}
@@ -415,16 +449,21 @@ export function CommunityHub() {
             </p>
           ) : (
             posts.map((post) => (
-              <article key={post.id} className="rounded-xl border border-white/10 bg-[#181818] p-3">
-                <div className="flex items-start justify-between gap-3">
+              <article key={post.id} className="min-w-0 rounded-xl border border-white/10 bg-[#181818] p-3">
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                   <div className="min-w-0">
                     <h3 className="break-words font-semibold text-white">{post.title}</h3>
-                    <p className="mt-1 text-xs text-white/45">
-                      {post.author} · {formatDate(post.updatedAt || post.createdAt)}
+                    <p className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-white/45">
+                      <span className="inline-flex min-w-0 items-center gap-1 font-medium text-[#ffb347]">
+                        <UserRound size={13} aria-hidden="true" />
+                        <span className="break-words">{post.author?.trim() || "ไม่ระบุชื่อ"}</span>
+                      </span>
+                      <span aria-hidden="true">·</span>
+                      <span>{formatDate(post.updatedAt || post.createdAt)}</span>
                       {post.updatedAt ? " · แก้ไขแล้ว" : ""}
                     </p>
                   </div>
-                  <div className="flex shrink-0 gap-1">
+                  <div className="flex shrink-0 self-end gap-1 sm:self-start">
                     <button
                       type="button"
                       onClick={() => editPost(post)}
@@ -477,8 +516,8 @@ export function CommunityHub() {
         </div>
       </div>
 
-      <div className="flex min-h-[420px] flex-col rounded-2xl border border-white/10 bg-[#111] p-3 sm:p-4">
-        <div className="flex items-center justify-between gap-3">
+      <div className="flex min-h-[420px] min-w-0 flex-col rounded-2xl border border-white/10 bg-[#111] p-3 sm:p-4">
+        <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#ff7a18]">Realtime</p>
             <h2 className="mt-0.5 text-xl font-extrabold tracking-tight text-white sm:text-2xl">
