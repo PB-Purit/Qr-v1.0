@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { CustomQrGenerator } from "@/components/CustomQrGenerator";
+import { CommunityHub } from "@/components/CommunityHub";
 import { Header } from "@/components/Header";
 import { MenuDrawer } from "@/components/MenuDrawer";
 import { QrDisplay } from "@/components/QrDisplay";
@@ -66,6 +67,8 @@ export default function HomePage() {
             />
           </div>
         </section>
+
+        <CommunityHub />
       </main>
 
       <footer className="border-t border-[#ff7a18]/30 px-4 py-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] text-center text-sm text-white/80">

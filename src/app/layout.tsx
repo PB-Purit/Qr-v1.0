@@ -9,8 +9,8 @@ const prompt = Prompt({
 });
 
 export const metadata: Metadata = {
-  title: "Store PM 1 QR | ST 11142 Loss Prevention",
-  description: "สร้าง QR Code และเทมเพลตรายงานสาขาเพชรเกษม 1",
+  title: "Store PM 1 | ST 11142 Loss Prevention",
+  description: "สร้าง QR Code ",
 };
 
 export const viewport: Viewport = {
