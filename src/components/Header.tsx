@@ -28,7 +28,7 @@ export function Header({ onOpenMenu }: HeaderProps) {
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-3 py-3 sm:px-4 md:px-6">
         <div className="min-w-0 pr-2">
           <p className="text-[10px] leading-tight text-[#ff7a18] sm:text-xs">
-            ST 11142 (Loss Prevention)
+           (Loss Prevention)
           </p>
           <h1 className="text-lg font-bold leading-tight text-white sm:text-xl md:text-2xl">
             Store PM 1
