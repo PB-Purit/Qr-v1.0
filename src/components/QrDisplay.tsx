@@ -95,14 +95,6 @@ export function QrDisplay({
       </div>
       <div className="mt-3 flex justify-center">
         <div className="flex w-full max-w-[260px] flex-col items-center gap-2 sm:flex-row sm:justify-center sm:flex-wrap">
-          <button
-            type="button"
-            onClick={download}
-            disabled={!hasValue || !ready}
-            className={`${mini ? "min-h-8 px-2.5 py-1.5 text-xs" : "min-h-10 px-4 py-2 text-sm"} click-pop w-full rounded-full bg-[#ff7a18] font-semibold text-black transition hover:bg-[#ffb347] disabled:cursor-not-allowed disabled:opacity-40 sm:w-auto`}
-          >
-            ดาวน์โหลด
-          </button>
           {isUrl ? (
             <a
               href={value}
@@ -113,6 +105,14 @@ export function QrDisplay({
               เปิดลิงก์ / สแกน
             </a>
           ) : null}
+          <button
+            type="button"
+            onClick={download}
+            disabled={!hasValue || !ready}
+            className={`${mini ? "min-h-8 px-2.5 py-1.5 text-xs" : "min-h-10 px-4 py-2 text-sm"} click-pop w-full rounded-full bg-[#ff7a18] font-semibold text-black transition hover:bg-[#ffb347] disabled:cursor-not-allowed disabled:opacity-40 sm:w-auto`}
+          >
+            ดาวน์โหลด
+          </button>
         </div>
       </div>
     </>

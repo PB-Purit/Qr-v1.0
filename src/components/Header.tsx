@@ -11,9 +11,13 @@ import {
 
 type HeaderProps = {
   onOpenMenu: () => void;
+  onGoHome: () => void;
+  onShowFireman: () => void;
+  onShowMap: () => void;
+  onShowEmergencyContacts: () => void;
 };
 
-export function Header({ onOpenMenu }: HeaderProps) {
+export function Header({ onOpenMenu, onGoHome, onShowFireman, onShowMap, onShowEmergencyContacts }: HeaderProps) {
   const headerItems = [
     { label: "Home", icon: House },
     { label: "Fireman", icon: FireExtinguisher },
@@ -35,17 +39,36 @@ export function Header({ onOpenMenu }: HeaderProps) {
           </h1>
         </div>
         <nav aria-label="เมนูหลัก" className="flex min-w-0 items-center gap-1 sm:gap-2">
-          {headerItems.map(({ label, icon: Icon }) => (
-            <span
-              key={label}
-              title={label}
-              aria-label={label}
-              className="flex h-9 w-8 shrink-0 items-center justify-center gap-1.5 rounded-lg border border-white/10 text-white/75 transition hover:border-[#ff7a18] hover:bg-[#ff7a18]/10 hover:text-[#ffb347] sm:h-10 sm:w-auto sm:px-2.5"
-            >
-              <Icon aria-hidden="true" size={17} strokeWidth={1.8} />
-              <span className="hidden text-xs font-medium lg:inline">{label}</span>
-            </span>
-          ))}
+          {headerItems.map(({ label, icon: Icon }) => {
+            const isEmergencyContact = label === "Emergency contact";
+            const isHome = label === "Home";
+            const isFireman = label === "Fireman";
+            const isMap = label === "Dashboard";
+            const className = "flex h-9 w-8 shrink-0 items-center justify-center gap-1.5 rounded-lg border border-white/10 text-white/75 transition hover:border-[#ff7a18] hover:bg-[#ff7a18]/10 hover:text-[#ffb347] sm:h-10 sm:w-auto sm:px-2.5";
+
+            if (isEmergencyContact || isHome || isFireman || isMap) {
+              return (
+                <button
+                  key={label}
+                  type="button"
+                  title={label}
+                  aria-label={label}
+                  onClick={isHome ? onGoHome : isFireman ? onShowFireman : isMap ? onShowMap : onShowEmergencyContacts}
+                  className={className}
+                >
+                  <Icon aria-hidden="true" size={17} strokeWidth={1.8} />
+                  <span className="hidden text-xs font-medium lg:inline">{label}</span>
+                </button>
+              );
+            }
+
+            return (
+              <span key={label} title={label} aria-label={label} className={className}>
+                <Icon aria-hidden="true" size={17} strokeWidth={1.8} />
+                <span className="hidden text-xs font-medium lg:inline">{label}</span>
+              </span>
+            );
+          })}
         </nav>
         <button
           type="button"

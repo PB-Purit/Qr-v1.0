@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CustomQrGenerator } from "@/components/CustomQrGenerator";
-import { CommunityHub } from "@/components/CommunityHub";
+import { EmergencyContacts } from "@/components/EmergencyContacts";
 import { Header } from "@/components/Header";
 import { MenuDrawer } from "@/components/MenuDrawer";
 import { QrDisplay } from "@/components/QrDisplay";
@@ -14,10 +14,42 @@ import {
 
 export default function HomePage() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [showFireman, setShowFireman] = useState(false);
+  const [showMap, setShowMap] = useState(false);
+  const [showEmergencyContacts, setShowEmergencyContacts] = useState(false);
+
+  useEffect(() => {
+    const sectionId = showFireman ? "fireman-guide" : showMap ? "store-map" : showEmergencyContacts ? "emergency-contacts" : null;
+    if (sectionId) document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
+  }, [showFireman, showMap, showEmergencyContacts]);
 
   return (
     <div className="min-h-dvh bg-[radial-gradient(circle_at_top,_rgba(255,122,24,0.12),_transparent_38%),#000]">
-      <Header onOpenMenu={() => setMenuOpen(true)} />
+      <Header
+        onOpenMenu={() => setMenuOpen(true)}
+        onGoHome={() => {
+          setMenuOpen(false);
+          setShowEmergencyContacts(false);
+          setShowFireman(false);
+          setShowMap(false);
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }}
+        onShowFireman={() => {
+          setShowFireman((visible) => !visible);
+          setShowMap(false);
+          setShowEmergencyContacts(false);
+        }}
+        onShowMap={() => {
+          setShowMap((visible) => !visible);
+          setShowFireman(false);
+          setShowEmergencyContacts(false);
+        }}
+        onShowEmergencyContacts={() => {
+          setShowEmergencyContacts((visible) => !visible);
+          setShowFireman(false);
+          setShowMap(false);
+        }}
+      />
       <MenuDrawer open={menuOpen} onClose={() => setMenuOpen(false)} />
 
       <main className="mx-auto max-w-7xl space-y-4 px-2.5 py-4 sm:space-y-5 sm:px-4 sm:py-5 md:px-5 md:py-6">
@@ -68,7 +100,21 @@ export default function HomePage() {
           </div>
         </section>
 
-        <CommunityHub />
+    
+        {showFireman && (
+          <section id="fireman-guide" className="animate-rise rounded-2xl border border-white/10 bg-[#111] p-3 sm:p-4">
+            <h2 className="text-lg font-bold sm:text-xl">Fireman Map</h2>
+            <div className="mt-3 flex justify-center">
+              <img 
+                src="/pic/Map.png" 
+                alt="Fireman Map" 
+                className="max-w-full h-auto rounded-lg border border-white/10"
+              />
+            </div>
+          </section>
+        )}
+
+        {showEmergencyContacts && <EmergencyContacts />}
       </main>
 
       <footer className="border-t border-[#ff7a18]/30 px-4 py-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] text-center text-sm text-white/80">
