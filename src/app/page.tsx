@@ -6,6 +6,7 @@ import { EmergencyContacts } from "@/components/EmergencyContacts";
 import { Header } from "@/components/Header";
 import { MenuDrawer } from "@/components/MenuDrawer";
 import { QrDisplay } from "@/components/QrDisplay";
+import { ScanPopup } from "@/components/ScanPopup";
 import {
   nightStations,
   openingStations,
@@ -17,6 +18,7 @@ export default function HomePage() {
   const [showFireman, setShowFireman] = useState(false);
   const [showMap, setShowMap] = useState(false);
   const [showEmergencyContacts, setShowEmergencyContacts] = useState(false);
+  const [showScanPopup, setShowScanPopup] = useState(false);
 
   useEffect(() => {
     const sectionId = showFireman ? "fireman-guide" : showMap ? "store-map" : showEmergencyContacts ? "emergency-contacts" : null;
@@ -51,12 +53,22 @@ export default function HomePage() {
         }}
       />
       <MenuDrawer open={menuOpen} onClose={() => setMenuOpen(false)} />
+      <ScanPopup open={showScanPopup} onClose={() => setShowScanPopup(false)} />
 
       <main className="mx-auto max-w-7xl space-y-4 px-2.5 py-4 sm:space-y-5 sm:px-4 sm:py-5 md:px-5 md:py-6">
         <CustomQrGenerator />
 
         <section className="animate-rise rounded-2xl border border-white/10 bg-[#111] p-3 sm:p-4">
-          <h2 className="text-lg font-bold sm:text-xl">2. Opening ST</h2>
+          <div className="flex items-center justify-between gap-3 mb-3">
+            <h2 className="text-lg font-bold sm:text-xl">2. Opening ST</h2>
+            <button
+              type="button"
+              onClick={() => setShowScanPopup(true)}
+              className="click-pop shrink-0 rounded-lg bg-[#ff7a18] px-3 py-1.5 text-xs font-semibold text-black transition hover:bg-[#ffb347]"
+            >
+              สแกนจุดตรวจสอบ
+            </button>
+          </div>
           <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3 lg:grid-cols-4 xl:grid-cols-5">
             {openingStations.map((station) => (
               <QrDisplay

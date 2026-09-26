@@ -8,6 +8,7 @@ import {
   Menu,
   PhoneCall,
 } from "lucide-react";
+import { useState } from "react";
 
 type HeaderProps = {
   onOpenMenu: () => void;
@@ -37,6 +38,9 @@ export function Header({ onOpenMenu, onGoHome, onShowFireman, onShowMap, onShowE
           <h1 className="text-lg font-bold leading-tight text-white sm:text-xl md:text-2xl">
             Store PM 1
           </h1>
+          <p className="mt-1 overflow-hidden whitespace-nowrap text-[10px] font-bold text-red-500 sm:text-xs">
+            <span className="inline-block animate-marquee">⚠️ สแกนจุดกรุณาตรวจสอบทุกจุดก่อนกดส่ง  **รอ 2 นาที** ⚠️</span>
+          </p>
         </div>
         <nav aria-label="เมนูหลัก" className="flex min-w-0 items-center gap-1 sm:gap-2">
           {headerItems.map(({ label, icon: Icon }) => {

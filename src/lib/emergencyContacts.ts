@@ -47,7 +47,6 @@ export const emergencyContactGroups = [
       { name: "คุณวิชระ นุชเจริญ", role: "Staff", phone: "090-9736868" },
       { name: "คุณธานินทร์ ศรีทานันท์", role: "Staff", phone: "096-7472337" },
       { name: "คุณภูริชญ์ บำรุงราษฎร์", role: "Staff", phone: "088-8696955" },
-      
     ] satisfies EmergencyContact[],
   },
   {
