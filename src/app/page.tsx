@@ -16,14 +16,13 @@ import {
 export default function HomePage() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [showFireman, setShowFireman] = useState(false);
-  const [showMap, setShowMap] = useState(false);
   const [showEmergencyContacts, setShowEmergencyContacts] = useState(false);
   const [showScanPopup, setShowScanPopup] = useState(false);
 
   useEffect(() => {
-    const sectionId = showFireman ? "fireman-guide" : showMap ? "store-map" : showEmergencyContacts ? "emergency-contacts" : null;
+    const sectionId = showFireman ? "fireman-guide" : showEmergencyContacts ? "emergency-contacts" : null;
     if (sectionId) document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
-  }, [showFireman, showMap, showEmergencyContacts]);
+  }, [showFireman, showEmergencyContacts]);
 
   return (
     <div className="min-h-dvh bg-[radial-gradient(circle_at_top,_rgba(255,122,24,0.12),_transparent_38%),#000]">
@@ -33,23 +32,15 @@ export default function HomePage() {
           setMenuOpen(false);
           setShowEmergencyContacts(false);
           setShowFireman(false);
-          setShowMap(false);
           window.scrollTo({ top: 0, behavior: "smooth" });
         }}
         onShowFireman={() => {
           setShowFireman((visible) => !visible);
-          setShowMap(false);
-          setShowEmergencyContacts(false);
-        }}
-        onShowMap={() => {
-          setShowMap((visible) => !visible);
-          setShowFireman(false);
           setShowEmergencyContacts(false);
         }}
         onShowEmergencyContacts={() => {
           setShowEmergencyContacts((visible) => !visible);
           setShowFireman(false);
-          setShowMap(false);
         }}
       />
       <MenuDrawer open={menuOpen} onClose={() => setMenuOpen(false)} />

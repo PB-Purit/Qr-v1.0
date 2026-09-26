@@ -4,34 +4,29 @@ import {
   FireExtinguisher,
   House,
   Info,
-  LayoutDashboard,
   Menu,
   PhoneCall,
 } from "lucide-react";
-import { useState } from "react";
 
 type HeaderProps = {
   onOpenMenu: () => void;
   onGoHome: () => void;
   onShowFireman: () => void;
-  onShowMap: () => void;
   onShowEmergencyContacts: () => void;
 };
 
-export function Header({ onOpenMenu, onGoHome, onShowFireman, onShowMap, onShowEmergencyContacts }: HeaderProps) {
+export function Header({ onOpenMenu, onGoHome, onShowFireman, onShowEmergencyContacts }: HeaderProps) {
   const headerItems = [
     { label: "Home", icon: House },
     { label: "Fireman", icon: FireExtinguisher },
-    { label: "Dashboard", icon: LayoutDashboard },
     { label: "Emergency contact", icon: PhoneCall },
     { label: "About", icon: Info },
-    
   ];
 
   return (
     <header className="sticky top-0 z-40 border-b border-[#ff7a18]/30 bg-black/90 pt-[env(safe-area-inset-top)] backdrop-blur">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-3 py-3 sm:px-4 md:px-6">
-        <div className="min-w-0 pr-2">
+      <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-3 gap-y-2 px-3 py-3 sm:flex-nowrap sm:px-4 md:px-6">
+        <div className="min-w-0 flex-1 pr-2">
           <p className="text-[10px] leading-tight text-[#ff7a18] sm:text-xs">
            (Loss Prevention)
           </p>
@@ -42,35 +37,43 @@ export function Header({ onOpenMenu, onGoHome, onShowFireman, onShowMap, onShowE
             <span className="inline-block animate-marquee">⚠️ สแกนจุดกรุณาตรวจสอบทุกจุดก่อนกดส่ง  **รอ 2 นาที** ⚠️</span>
           </p>
         </div>
-        <nav aria-label="เมนูหลัก" className="flex min-w-0 items-center gap-1 sm:gap-2">
+        <nav aria-label="เมนูหลัก" className="order-3 flex w-full min-w-0 items-center gap-1 sm:order-none sm:w-auto sm:gap-2">
           {headerItems.map(({ label, icon: Icon }) => {
             const isEmergencyContact = label === "Emergency contact";
             const isHome = label === "Home";
             const isFireman = label === "Fireman";
-            const isMap = label === "Dashboard";
-            const className = "flex h-9 w-8 shrink-0 items-center justify-center gap-1.5 rounded-lg border border-white/10 text-white/75 transition hover:border-[#ff7a18] hover:bg-[#ff7a18]/10 hover:text-[#ffb347] sm:h-10 sm:w-auto sm:px-2.5";
+            const isAbout = label === "About";
+            const className = "flex h-9 min-w-8 flex-1 items-center justify-center gap-1.5 rounded-lg border border-white/10 text-white/75 transition hover:border-[#ff7a18] hover:bg-[#ff7a18]/10 hover:text-[#ffb347] sm:h-10 sm:flex-none sm:px-2.5";
 
-            if (isEmergencyContact || isHome || isFireman || isMap) {
+            if (isAbout) {
               return (
-                <button
+                <a
                   key={label}
-                  type="button"
+                  href="https://github.com/PB-Purit/Qr-v1.0"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   title={label}
                   aria-label={label}
-                  onClick={isHome ? onGoHome : isFireman ? onShowFireman : isMap ? onShowMap : onShowEmergencyContacts}
                   className={className}
                 >
                   <Icon aria-hidden="true" size={17} strokeWidth={1.8} />
                   <span className="hidden text-xs font-medium lg:inline">{label}</span>
-                </button>
+                </a>
               );
             }
 
             return (
-              <span key={label} title={label} aria-label={label} className={className}>
+              <button
+                key={label}
+                type="button"
+                title={label}
+                aria-label={label}
+                onClick={isHome ? onGoHome : isFireman ? onShowFireman : onShowEmergencyContacts}
+                className={className}
+              >
                 <Icon aria-hidden="true" size={17} strokeWidth={1.8} />
                 <span className="hidden text-xs font-medium lg:inline">{label}</span>
-              </span>
+              </button>
             );
           })}
         </nav>
