@@ -42,10 +42,10 @@ export const emergencyContactGroups = [
     contacts: [
       { name: "คุณนรเนตร มักน้อย", role: "Chief LP", phone: "082-9518366" },
       { name: "คุณชินวัฒน์ บุตรสมัน", role: "Staff", phone: "080-1342795" },
-      { name: "คุณพลพล นามวงศ์ลือ", role: "Staff", phone: "091-0525265" },
+      // { name: "คุณพลพล นามวงศ์ลือ", role: "Staff", phone: "091-0525265" },
       { name: "คุณกัลยวรรณน์ มนัสการ", role: "Staff", phone: "090-5392287" },
-      { name: "คุณวิชระ นุชเจริญ", role: "Staff", phone: "062-671-8983" },
-      { name: "คุณธานินทร์ ศรีทานันท์", role: "Staff", phone: "090-9736868" },
+      { name: "คุณวิชระ นุชเจริญ", role: "Staff", phone: "090-9736868" },
+      { name: "คุณธานินทร์ ศรีทานันท์", role: "Staff", phone: "096-7472337" },
       { name: "คุณภูริชญ์ บำรุงราษฎร์", role: "Staff", phone: "088-8696955" },
       
     ] satisfies EmergencyContact[],
