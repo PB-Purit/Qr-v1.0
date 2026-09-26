@@ -2,13 +2,16 @@
 
 import { useState, useEffect } from "react";
 import { X, CheckCircle2, Clock } from "lucide-react";
+import type { Station } from "@/lib/stations";
 
 type ScanPopupProps = {
   open: boolean;
   onClose: () => void;
+  stations: Station[];
+  title: string;
 };
 
-export function ScanPopup({ open, onClose }: ScanPopupProps) {
+export function ScanPopup({ open, onClose, stations, title }: ScanPopupProps) {
   const [elapsedTime, setElapsedTime] = useState(0);
   const [canSubmit, setCanSubmit] = useState(false);
   const [scannedPoints, setScannedPoints] = useState<string[]>([]);
@@ -47,14 +50,6 @@ export function ScanPopup({ open, onClose }: ScanPopupProps) {
     );
   };
 
-  const points = [
-    "จุดตรวจสอบที่ 1",
-    "จุดตรวจสอบที่ 2",
-    "จุดตรวจสอบที่ 3",
-    "จุดตรวจสอบที่ 4",
-    "จุดตรวจสอบที่ 5",
-  ];
-
   if (!open) return null;
 
   return (
@@ -67,7 +62,7 @@ export function ScanPopup({ open, onClose }: ScanPopupProps) {
       />
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md rounded-2xl border border-[#ff7a18]/40 bg-[#0d0d0d] p-4 sm:p-6">
         <div className="flex items-center justify-between gap-3 mb-4">
-          <h2 className="text-lg font-bold text-[#ff7a18]">สแกนจุดตรวจสอบ</h2>
+          <h2 className="text-lg font-bold text-[#ff7a18]">สแกนจุดตรวจสอบ {title}</h2>
           <button
             type="button"
             onClick={onClose}
@@ -96,23 +91,23 @@ export function ScanPopup({ open, onClose }: ScanPopupProps) {
 
         <div className="mb-4 space-y-2">
           <p className="text-sm font-semibold text-white/80">เลือกจุดที่สแกนแล้ว:</p>
-          {points.map((point) => (
+          {stations.map((station) => (
             <button
-              key={point}
+              key={station.id}
               type="button"
-              onClick={() => togglePoint(point)}
+              onClick={() => togglePoint(station.label)}
               className={`flex w-full items-center gap-3 rounded-lg border px-3 py-2.5 text-left text-sm transition ${
-                scannedPoints.includes(point)
+                scannedPoints.includes(station.label)
                   ? "border-emerald-500/50 bg-emerald-500/10 text-emerald-300"
                   : "border-white/10 bg-[#181818] text-white/70 hover:border-white/20"
               }`}
             >
-              {scannedPoints.includes(point) ? (
+              {scannedPoints.includes(station.label) ? (
                 <CheckCircle2 className="shrink-0 text-emerald-400" size={16} aria-hidden="true" />
               ) : (
                 <div className="shrink-0 h-4 w-4 rounded-full border-2 border-white/30" />
               )}
-              {point}
+              {station.label}
             </button>
           ))}
         </div>

@@ -18,6 +18,8 @@ export default function HomePage() {
   const [showFireman, setShowFireman] = useState(false);
   const [showEmergencyContacts, setShowEmergencyContacts] = useState(false);
   const [showScanPopup, setShowScanPopup] = useState(false);
+  const [scanShift, setScanShift] = useState<"opening" | "night">("opening");
+  const scanStations = scanShift === "opening" ? openingStations : nightStations;
 
   useEffect(() => {
     const sectionId = showFireman ? "fireman-guide" : showEmergencyContacts ? "emergency-contacts" : null;
@@ -44,7 +46,12 @@ export default function HomePage() {
         }}
       />
       <MenuDrawer open={menuOpen} onClose={() => setMenuOpen(false)} />
-      <ScanPopup open={showScanPopup} onClose={() => setShowScanPopup(false)} />
+      <ScanPopup
+        open={showScanPopup}
+        onClose={() => setShowScanPopup(false)}
+        stations={scanStations}
+        title={scanShift === "opening" ? "Opening ST" : "Night ST"}
+      />
 
       <main className="mx-auto max-w-7xl space-y-4 px-2.5 py-4 sm:space-y-5 sm:px-4 sm:py-5 md:px-5 md:py-6">
         <CustomQrGenerator />
@@ -54,7 +61,10 @@ export default function HomePage() {
             <h2 className="text-lg font-bold sm:text-xl">2. Opening ST</h2>
             <button
               type="button"
-              onClick={() => setShowScanPopup(true)}
+              onClick={() => {
+                setScanShift("opening");
+                setShowScanPopup(true);
+              }}
               className="click-pop shrink-0 rounded-lg bg-[#ff7a18] px-3 py-1.5 text-xs font-semibold text-black transition hover:bg-[#ffb347]"
             >
               สแกนจุดตรวจสอบ
@@ -75,7 +85,19 @@ export default function HomePage() {
         </section>
 
         <section className="animate-rise rounded-2xl border border-white/10 bg-[#111] p-3 sm:p-4">
-          <h2 className="text-lg font-bold sm:text-xl">3. Night ST</h2>
+          <div className="mb-3 flex items-center justify-between gap-3">
+            <h2 className="text-lg font-bold sm:text-xl">3. Night ST</h2>
+            <button
+              type="button"
+              onClick={() => {
+                setScanShift("night");
+                setShowScanPopup(true);
+              }}
+              className="click-pop shrink-0 rounded-lg bg-[#ff7a18] px-3 py-1.5 text-xs font-semibold text-black transition hover:bg-[#ffb347]"
+            >
+              สแกนจุดตรวจสอบ
+            </button>
+          </div>
           <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3 lg:grid-cols-4 xl:grid-cols-5">
             {nightStations.map((station) => (
               <QrDisplay
