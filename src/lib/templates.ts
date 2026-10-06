@@ -2,6 +2,7 @@ export type TemplateItem = {
   id: string;
   title: string;
   text: string;
+  url?: string;
 };
 
 export const listTemplates: {
@@ -35,7 +36,7 @@ XXXX_สาขา......(ปลายทาง)
 
 พขร. คุณชิษณุพงษ์ ประสพคำ
 ทะเบียนรถขนส่ง
-2 ฒต 7968 กรุงเทพ
+2 ฒต 7968 กรุงเทพฯ / ยก 4487 นครราชศรีมา
 
 พนักงานร่วมตรวจสอบสินค้า ดังนี้
 
@@ -308,6 +309,23 @@ Tel......`,
 คุณ ปฐวี สถาอุ่น
 คุณ ณัฐภูมิ ทองยศ
 คุณ เดชา บัวอ่อง (C7)`,
+      },
+    ],
+  },
+  {
+    id: "list-5",
+    title: "List 5. Flood Report",
+    items: [
+      {
+        id: "flood-report",
+        title: "Flood Report",
+        text: `รายงาน Flood Report
+
+เช้า 06.00-07.00 (Am)
+เย็น 18.00-19.00 (PM)
+ดึก 22.00-23.00 (PM)
+ยามวิกาล 03.00-04.00 (AM) `, 
+        url: "https://script.google.com/macros/s/AKfycbwL3WpGcHO7blu1cNYTOrsyWk8COoBzGzq-LrgjzITtPJKaOHrZoA07bGXmpIPVuJg6/exec",
       },
     ],
   },

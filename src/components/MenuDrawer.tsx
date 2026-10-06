@@ -70,7 +70,12 @@ export function MenuDrawer({ open, onClose }: MenuDrawerProps) {
                 {expanded ? (
                   <div className="space-y-3 border-t border-white/10 p-3">
                     {group.items.map((item) => (
-                      <CopyBox key={item.id} title={item.title} text={item.text} />
+                      <CopyBox
+                        key={item.id}
+                        title={item.title}
+                        text={item.text}
+                        url={item.url}
+                      />
                     ))}
                   </div>
                 ) : null}

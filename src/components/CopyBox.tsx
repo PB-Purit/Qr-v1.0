@@ -5,9 +5,10 @@ import { useState } from "react";
 type CopyBoxProps = {
   title: string;
   text: string;
+  url?: string;
 };
 
-export function CopyBox({ title, text }: CopyBoxProps) {
+export function CopyBox({ title, text, url }: CopyBoxProps) {
   const [copied, setCopied] = useState(false);
 
   const copy = async () => {
@@ -30,7 +31,19 @@ export function CopyBox({ title, text }: CopyBoxProps) {
   return (
     <section className="hover-glow rounded-2xl border border-white/10 bg-black/40 p-3">
       <div className="mb-2 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-        <h4 className="text-sm font-semibold text-[#ffb347]">{title}</h4>
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+          <h4 className="text-sm font-semibold text-[#ffb347]">{title}</h4>
+          {url ? (
+            <a
+              href={url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-sky-300 underline underline-offset-2 hover:text-sky-200"
+            >
+              Click here (Flood Report)
+            </a>
+          ) : null}
+        </div>
         <button
           type="button"
           onClick={copy}
