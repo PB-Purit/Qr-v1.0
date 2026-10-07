@@ -5,8 +5,8 @@ export type TemplateItem = {
   url?: string;
   urlLabel?: string;
   credentials?: {
-    id: "gold-lp" | "area-inspection";
     username: string;
+    password: string;
   };
 };
 
@@ -353,8 +353,8 @@ Tel......`,
         title: "6.1 Gold LP",
         text: "",
         credentials: {
-          id: "gold-lp",
           username: "11142ct01",
+          password: "11142ct02",
         },
       },
       {
@@ -368,8 +368,8 @@ Tel......`,
         url: "https://bgcp-pdaeprop.bigc.co.th",
         urlLabel: "Click here (Area Inspection)",
         credentials: {
-          id: "area-inspection",
           username: "LPSTORE",
+          password: "Sep@2026​",
         },
       },
     ],

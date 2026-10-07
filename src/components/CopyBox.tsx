@@ -8,17 +8,14 @@ type CopyBoxProps = {
   url?: string;
   urlLabel?: string;
   credentials?: {
-    id: "gold-lp" | "area-inspection";
     username: string;
+    password: string;
   };
 };
 
 export function CopyBox({ title, text, url, urlLabel, credentials }: CopyBoxProps) {
   const [copied, setCopied] = useState(false);
-  const [password, setPassword] = useState<string | null>(null);
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const [passwordError, setPasswordError] = useState<string | null>(null);
-  const [loadingPassword, setLoadingPassword] = useState(false);
 
   const copy = async () => {
     try {
@@ -37,39 +34,8 @@ export function CopyBox({ title, text, url, urlLabel, credentials }: CopyBoxProp
     }
   };
 
-  const togglePassword = async () => {
-    if (passwordVisible) {
-      setPasswordVisible(false);
-      return;
-    }
-
-    if (password !== null) {
-      setPasswordVisible(true);
-      return;
-    }
-
-    if (!credentials) return;
-
-    setLoadingPassword(true);
-    setPasswordError(null);
-    try {
-      const response = await fetch(
-        `/api/template-password?id=${encodeURIComponent(credentials.id)}`,
-        { cache: "no-store" },
-      );
-      if (!response.ok) {
-        throw new Error("ไม่สามารถโหลดรหัสผ่านได้ กรุณาตรวจสอบการตั้งค่าระบบ");
-      }
-      const result: { password: string } = await response.json();
-      setPassword(result.password);
-      setPasswordVisible(true);
-    } catch (error) {
-      setPasswordError(
-        error instanceof Error ? error.message : "ไม่สามารถโหลดรหัสผ่านได้",
-      );
-    } finally {
-      setLoadingPassword(false);
-    }
+  const togglePassword = () => {
+    setPasswordVisible((visible) => !visible);
   };
 
   return (
@@ -103,25 +69,21 @@ export function CopyBox({ title, text, url, urlLabel, credentials }: CopyBoxProp
       ) : null}
       {credentials ? (
         <div className="mt-3 rounded-xl border border-white/10 bg-[#0f0f0f] p-3 text-xs text-white/90">
-          <p>User: {credentials.username}</p>
+          <p>US: {credentials.username}</p>
           <div className="mt-2 flex flex-wrap items-center gap-2">
-            <span>Password:</span>
-            <span aria-live="polite">{passwordVisible ? password : "••••••••"}</span>
+            <span>PW:</span>
+            <span aria-live="polite">
+              {passwordVisible ? credentials.password : "••••••••"}
+            </span>
             <button
               type="button"
               onClick={togglePassword}
-              disabled={loadingPassword}
               aria-label={passwordVisible ? "ซ่อนรหัสผ่าน" : "ดูรหัสผ่าน"}
               className="rounded-full border border-white/20 px-3 py-1 text-xs hover:border-[#ff7a18] hover:text-[#ffb347] disabled:opacity-60"
             >
-              {loadingPassword ? "กำลังโหลด..." : passwordVisible ? "ซ่อน" : "ดูรหัสผ่าน"}
+              {passwordVisible ? "ซ่อน" : "ดูรหัสผ่าน"}
             </button>
           </div>
-          {passwordError ? (
-            <p role="alert" className="mt-2 text-red-300">
-              {passwordError}
-            </p>
-          ) : null}
         </div>
       ) : null}
     </section>
