@@ -75,6 +75,8 @@ export function MenuDrawer({ open, onClose }: MenuDrawerProps) {
                         title={item.title}
                         text={item.text}
                         url={item.url}
+                        urlLabel={item.urlLabel}
+                        credentials={item.credentials}
                       />
                     ))}
                   </div>

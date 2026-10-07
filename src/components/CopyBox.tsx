@@ -6,10 +6,19 @@ type CopyBoxProps = {
   title: string;
   text: string;
   url?: string;
+  urlLabel?: string;
+  credentials?: {
+    id: "gold-lp" | "area-inspection";
+    username: string;
+  };
 };
 
-export function CopyBox({ title, text, url }: CopyBoxProps) {
+export function CopyBox({ title, text, url, urlLabel, credentials }: CopyBoxProps) {
   const [copied, setCopied] = useState(false);
+  const [password, setPassword] = useState<string | null>(null);
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [passwordError, setPasswordError] = useState<string | null>(null);
+  const [loadingPassword, setLoadingPassword] = useState(false);
 
   const copy = async () => {
     try {
@@ -28,6 +37,41 @@ export function CopyBox({ title, text, url }: CopyBoxProps) {
     }
   };
 
+  const togglePassword = async () => {
+    if (passwordVisible) {
+      setPasswordVisible(false);
+      return;
+    }
+
+    if (password !== null) {
+      setPasswordVisible(true);
+      return;
+    }
+
+    if (!credentials) return;
+
+    setLoadingPassword(true);
+    setPasswordError(null);
+    try {
+      const response = await fetch(
+        `/api/template-password?id=${encodeURIComponent(credentials.id)}`,
+        { cache: "no-store" },
+      );
+      if (!response.ok) {
+        throw new Error("ไม่สามารถโหลดรหัสผ่านได้ กรุณาตรวจสอบการตั้งค่าระบบ");
+      }
+      const result: { password: string } = await response.json();
+      setPassword(result.password);
+      setPasswordVisible(true);
+    } catch (error) {
+      setPasswordError(
+        error instanceof Error ? error.message : "ไม่สามารถโหลดรหัสผ่านได้",
+      );
+    } finally {
+      setLoadingPassword(false);
+    }
+  };
+
   return (
     <section className="hover-glow rounded-2xl border border-white/10 bg-black/40 p-3">
       <div className="mb-2 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
@@ -40,7 +84,7 @@ export function CopyBox({ title, text, url }: CopyBoxProps) {
               rel="noopener noreferrer"
               className="text-xs text-sky-300 underline underline-offset-2 hover:text-sky-200"
             >
-              Click here (Flood Report)
+              {urlLabel ?? "เปิดลิงก์"}
             </a>
           ) : null}
         </div>
@@ -52,9 +96,34 @@ export function CopyBox({ title, text, url }: CopyBoxProps) {
           {copied ? "คัดลอกแล้ว" : "คัดลอก"}
         </button>
       </div>
-      <pre className="max-h-64 overflow-auto whitespace-pre-wrap break-words rounded-xl bg-[#0f0f0f] p-3 text-xs leading-5 text-white/90 sm:max-h-72">
-        {text}
-      </pre>
+      {text ? (
+        <pre className="max-h-64 overflow-auto whitespace-pre-wrap break-words rounded-xl bg-[#0f0f0f] p-3 text-xs leading-5 text-white/90 sm:max-h-72">
+          {text}
+        </pre>
+      ) : null}
+      {credentials ? (
+        <div className="mt-3 rounded-xl border border-white/10 bg-[#0f0f0f] p-3 text-xs text-white/90">
+          <p>User: {credentials.username}</p>
+          <div className="mt-2 flex flex-wrap items-center gap-2">
+            <span>Password:</span>
+            <span aria-live="polite">{passwordVisible ? password : "••••••••"}</span>
+            <button
+              type="button"
+              onClick={togglePassword}
+              disabled={loadingPassword}
+              aria-label={passwordVisible ? "ซ่อนรหัสผ่าน" : "ดูรหัสผ่าน"}
+              className="rounded-full border border-white/20 px-3 py-1 text-xs hover:border-[#ff7a18] hover:text-[#ffb347] disabled:opacity-60"
+            >
+              {loadingPassword ? "กำลังโหลด..." : passwordVisible ? "ซ่อน" : "ดูรหัสผ่าน"}
+            </button>
+          </div>
+          {passwordError ? (
+            <p role="alert" className="mt-2 text-red-300">
+              {passwordError}
+            </p>
+          ) : null}
+        </div>
+      ) : null}
     </section>
   );
 }
