@@ -40,6 +40,11 @@ export const openingStations: Station[] = [
     label: '2.7 Random Saving "Petty cash"',
     url: "https://script.google.com/macros/s/AKfycbynnH9qYYMMcuHV8NhbYHbAAJqlg6gc8P76tgdnl4vmxvSq5v4p-PwwsjjeRzsQiHvz/exec",
   },
+  {
+    id: "open-8",
+    label: "2.8 SafeRoom",
+    url: "https://script.google.com/macros/s/AKfycbxsem69bJqx7BsqNdRBwC1yG7lbkIFMKQLfRSP2K4oFrQzwSnA25TqAW2sS9AbLJEbXuQ/exec",
+  },
 ];
 
 export const nightStations: Station[] = [

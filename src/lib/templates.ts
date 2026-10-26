@@ -319,38 +319,11 @@ Tel......`,
   },
   {
     id: "list-5",
-    title: "List 5. Flood Report",
-    items: [
-      {
-        id: "flood-report",
-        title: "Flood Report",
-        text: `รายงาน Flood Report
-
-เช้า 06.00-07.00 (Am)
-เย็น 18.00-19.00 (PM)
-ดึก 22.00-23.00 (PM)
-ยามวิกาล 03.00-04.00 (AM)
-
-เลือกจุดภาพถ่าย Report
-ปกติ : ไม่มีน้ำท่วม 4 รูป
-รูปทางเข้าสาขา
-รูปพื้นที่ภายใน
-รูปถนนหน้าห้าง
-รูปภาพนอกอาคาร (ภายนอก)
-
-`,
-        url: "https://script.google.com/macros/s/AKfycbwL3WpGcHO7blu1cNYTOrsyWk8COoBzGzq-LrgjzITtPJKaOHrZoA07bGXmpIPVuJg6/exec",
-        urlLabel: "Click here (Flood Report)",
-      },
-    ],
-  },
-  {
-    id: "list-6",
-    title: "List 6. Gold and Area Inspection",
+    title: "List 5. Gold and Area Inspection",
     items: [
       {
         id: "gold-lp",
-        title: "6.1 Gold LP",
+        title: "5.1 Gold LP",
         text: "",
         credentials: {
           username: "11142ct01",
@@ -359,7 +332,7 @@ Tel......`,
       },
       {
         id: "area-inspection",
-        title: "6.2 เดินตรวจพื้นที่ (Report every Month)",
+        title: "5.2 เดินตรวจพื้นที่ (Report every Month)",
         text: `เลือก: Physical Items > Scan area by QR code
 (ใช้ Google Chrome ในการสแกนเท่านั้น)
 
